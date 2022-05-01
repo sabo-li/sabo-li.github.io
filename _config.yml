@@ -224,4 +224,3 @@ plugins:
   - jekyll-paginate
   - jekyll-sitemap
   - jemoji
-  - jekyll-remote-theme
