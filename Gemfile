@@ -20,7 +20,11 @@ gem "jekyll", "~> 4.2.2"
 group :jekyll_plugins do
   gem "jekyll-feed", "~> 0.12"
   gem 'jekyll-compose'
-  gem "github-pages"
+  # gem "github-pages"
+  gem "jekyll-remote-theme"
+  gem "jekyll-paginate"
+  gem "jekyll-sitemap"
+  gem "jemoji"
 end
 
 # Windows and JRuby does not include zoneinfo files, so bundle the tzinfo-data gem
