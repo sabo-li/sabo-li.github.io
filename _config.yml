@@ -118,7 +118,7 @@ sharing:
 ## => Comments
 ##############################
 comments:
-  provider: "gitalk" # false (default), "disqus", "gitalk", "valine", "custom"
+  provider: # false (default), "disqus", "gitalk", "valine", "custom"
 
   # ## Disqus
   # disqus:
@@ -127,13 +127,12 @@ comments:
   ## Gitalk
   # please refer to https://github.com/gitalk/gitalk for more info.
   gitalk:
-    clientID    : "dff04a6be7608aa6c7a8" # GitHub Application Client ID
-    clientSecret: "923431e2977bf843adc6dc70cd48ebe88dc3fc8e" # GitHub Application Client Secret
-    repository  : "https://github.com/Sapeu/Sapeu.github.io" # GitHub repo
-    owner       : Sapeu # GitHub repo owner
+    clientID    : # GitHub Application Client ID
+    clientSecret: # GitHub Application Client Secret
+    repository  : # GitHub repo
+    owner       : # GitHub repo owner
     admin: # GitHub repo owner and collaborators, only these guys can initialize GitHub issues, IT IS A LIST.
       # - your GitHub Id
-      - Sapeu
 
   # ## Valine
   # # please refer to https://valine.js.org/en/ for more info.
@@ -148,13 +147,13 @@ comments:
 ## => Pageview
 ##############################
 pageview:
-  provider: "leancloud" # false (default), "leancloud", "custom"
+  provider: # false (default), "leancloud", "custom"
 
   ## Leancloud
   leancloud:
-    app_id    : "7Chfy50CxFUIzetvS4FKJIBt-gzGzoHsz" # LeanCloud App id
-    app_key   : "WYBw89HkQrc46AchHOJTBxWe" # LeanCloud App key
-    app_class : "sapeu_github_io" # LeanCloud App class
+    app_id    : # LeanCloud App id
+    app_key   : # LeanCloud App key
+    app_class : # LeanCloud App class
 
 
 ## => Search
@@ -170,12 +169,12 @@ search:
 ## => Analytics
 ##############################
 analytics:
-  provider: "google" # false (default), "google", "custom"
+  provider: # false (default), "google", "custom"
 
   ## Google Analytics
   google:
-    tracking_id : G-08BFKCM921 # Google Analytics id for the site
-    anonymize_ip: true # Anonymize IP tracking for Analytics
+    tracking_id : # Google Analytics id for the site
+    anonymize_ip: # Anonymize IP tracking for Analytics
 
 
 ## => Build
