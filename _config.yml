@@ -128,7 +128,7 @@ comments:
   # please refer to https://github.com/gitalk/gitalk for more info.
   gitalk:
     clientID    : "dff04a6be7608aa6c7a8" # GitHub Application Client ID
-    clientSecret: "923431e2977bf843adc6dc70cd48ebe88dc3fc8e" # GitHub Application Client Secret
+    clientSecret: "ea0e01ad1c6893cfe34573949d5ef98bf5187c2a" # GitHub Application Client Secret
     repository  : "https://github.com/Sapeu/Sapeu.github.io" # GitHub repo
     owner       : Sapeu # GitHub repo owner
     admin: # GitHub repo owner and collaborators, only these guys can initialize GitHub issues, IT IS A LIST.

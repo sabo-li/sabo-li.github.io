@@ -6,6 +6,7 @@ comment: true
 date: 2018-09-27 22:26:19
 tags: [Ruby, Rails]
 categories: Rails
+key: k-ae36f9bb222d960fea1a7e15cf75c5d8
 ---
 
 [原文地址](https://ruby-china.github.io/rails-guides/caching_with_rails.html#conditional-get-support)

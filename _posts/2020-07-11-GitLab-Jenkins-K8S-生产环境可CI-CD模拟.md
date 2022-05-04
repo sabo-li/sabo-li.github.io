@@ -6,6 +6,7 @@ comment: true
 date: 2020-07-11 18:43:31
 tags: [GitLab, Jenkins, K8S]
 categories: 部署
+key: k-f36497f0661b974ee0dd69de4a213230
 ---
 
 该文档复制自[Docker+k8s+GitLab+Jenkins(生产环境可CI/CD模拟)](https://www.feiyiblog.com/2020/05/11/Docker-k8s-GitLab-Jenkins-%E7%94%9F%E6%88%90%E7%8E%AF%E5%A2%83%E5%8F%AFCI-CD%E6%A8%A1%E6%8B%9F/)
