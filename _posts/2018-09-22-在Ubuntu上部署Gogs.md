@@ -6,7 +6,7 @@ comment: true
 date: 2018-09-22 23:05:47
 tags: [部署, Gogs]
 categories: Gogs
-key: k-53c9dc9d3e989173230554b0024580eb
+key: post-8
 ---
 
 > Gogs 是一款极易搭建的自助 Git 服务。

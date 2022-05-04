@@ -6,7 +6,7 @@ comment: true
 date: 2018-09-28 23:58:32
 tags: [Ruby, Rails]
 categories: Rails
-key: k-a57214df1dc2ead802120e7ea8b66771
+key: post-14
 ---
 
 普通的mixin

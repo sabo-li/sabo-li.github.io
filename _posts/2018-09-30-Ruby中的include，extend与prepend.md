@@ -6,7 +6,7 @@ comment: true
 date: 2018-09-30 23:32:30
 tags: [Ruby]
 categories: Ruby
-key: k-fe0ec709f5d90af07aa65cf3f2548592
+key: post-16
 ---
 include, extend, prepend
 ======
