@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Ruby on Sabo LI</title>
+    <link>http://localhost:1313/tags/ruby/</link>
+    <description>Recent content in Ruby on Sabo LI</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-CN</language>
+    <managingEditor>sabo-li@outlook.com (Sabo LI)</managingEditor>
+    <webMaster>sabo-li@outlook.com (Sabo LI)</webMaster>
+    <copyright>© 2025 Sabo LI</copyright>
+    <lastBuildDate>Mon, 01 Oct 2018 23:53:39 +0000</lastBuildDate><atom:link href="http://localhost:1313/tags/ruby/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Ruby的load，require, autoload</title>
+      <link>http://localhost:1313/posts/ruby%E7%9A%84loadrequire-autoload/</link>
+      <pubDate>Mon, 01 Oct 2018 23:53:39 +0000</pubDate>
+      <author>sabo-li@outlook.com (Sabo LI)</author>
+      <guid>http://localhost:1313/posts/ruby%E7%9A%84loadrequire-autoload/</guid>
+      <description></description>
+      
+    </item>
+    
+    <item>
+      <title>Ruby中的include，extend与prepend</title>
+      <link>http://localhost:1313/posts/ruby%E4%B8%AD%E7%9A%84includeextend%E4%B8%8Eprepend/</link>
+      <pubDate>Sun, 30 Sep 2018 23:32:30 +0000</pubDate>
+      <author>sabo-li@outlook.com (Sabo LI)</author>
+      <guid>http://localhost:1313/posts/ruby%E4%B8%AD%E7%9A%84includeextend%E4%B8%8Eprepend/</guid>
+      <description></description>
+      
+    </item>
+    
+    <item>
+      <title>Ruby中的钩子方法</title>
+      <link>http://localhost:1313/posts/ruby%E4%B8%AD%E7%9A%84%E9%92%A9%E5%AD%90%E6%96%B9%E6%B3%95/</link>
+      <pubDate>Sat, 29 Sep 2018 23:19:03 +0000</pubDate>
+      <author>sabo-li@outlook.com (Sabo LI)</author>
+      <guid>http://localhost:1313/posts/ruby%E4%B8%AD%E7%9A%84%E9%92%A9%E5%AD%90%E6%96%B9%E6%B3%95/</guid>
+      <description></description>
+      
+    </item>
+    
+    <item>
+      <title>Rails中的ActiveSupport::Concern</title>
+      <link>http://localhost:1313/posts/rails%E4%B8%AD%E7%9A%84activesupport-concern/</link>
+      <pubDate>Fri, 28 Sep 2018 23:58:32 +0000</pubDate>
+      <author>sabo-li@outlook.com (Sabo LI)</author>
+      <guid>http://localhost:1313/posts/rails%E4%B8%AD%E7%9A%84activesupport-concern/</guid>
+      <description></description>
+      
+    </item>
+    
+    <item>
+      <title>Rails对HTTP条件GET请求的支持</title>
+      <link>http://localhost:1313/posts/rails%E5%AF%B9http%E6%9D%A1%E4%BB%B6get%E8%AF%B7%E6%B1%82%E7%9A%84%E6%94%AF%E6%8C%81/</link>
+      <pubDate>Thu, 27 Sep 2018 22:26:19 +0000</pubDate>
+      <author>sabo-li@outlook.com (Sabo LI)</author>
+      <guid>http://localhost:1313/posts/rails%E5%AF%B9http%E6%9D%A1%E4%BB%B6get%E8%AF%B7%E6%B1%82%E7%9A%84%E6%94%AF%E6%8C%81/</guid>
+      <description></description>
+      
+    </item>
+    
+    <item>
+      <title>Rails缓存存储器</title>
+      <link>http://localhost:1313/posts/rails%E7%BC%93%E5%AD%98%E5%AD%98%E5%82%A8%E5%99%A8/</link>
+      <pubDate>Wed, 26 Sep 2018 22:18:51 +0000</pubDate>
+      <author>sabo-li@outlook.com (Sabo LI)</author>
+      <guid>http://localhost:1313/posts/rails%E7%BC%93%E5%AD%98%E5%AD%98%E5%82%A8%E5%99%A8/</guid>
+      <description></description>
+      
+    </item>
+    
+    <item>
+      <title>Rails片段缓存以及其他缓存</title>
+      <link>http://localhost:1313/posts/rails%E7%89%87%E6%AE%B5%E7%BC%93%E5%AD%98%E4%BB%A5%E5%8F%8A%E5%85%B6%E4%BB%96%E7%BC%93%E5%AD%98/</link>
+      <pubDate>Tue, 25 Sep 2018 22:14:00 +0000</pubDate>
+      <author>sabo-li@outlook.com (Sabo LI)</author>
+      <guid>http://localhost:1313/posts/rails%E7%89%87%E6%AE%B5%E7%BC%93%E5%AD%98%E4%BB%A5%E5%8F%8A%E5%85%B6%E4%BB%96%E7%BC%93%E5%AD%98/</guid>
+      <description></description>
+      
+    </item>
+    
+    <item>
+      <title>Rails动作缓存</title>
+      <link>http://localhost:1313/posts/rails%E5%8A%A8%E4%BD%9C%E7%BC%93%E5%AD%98/</link>
+      <pubDate>Mon, 24 Sep 2018 23:57:48 +0000</pubDate>
+      <author>sabo-li@outlook.com (Sabo LI)</author>
+      <guid>http://localhost:1313/posts/rails%E5%8A%A8%E4%BD%9C%E7%BC%93%E5%AD%98/</guid>
+      <description></description>
+      
+    </item>
+    
+    <item>
+      <title>Rails页面缓存</title>
+      <link>http://localhost:1313/posts/rails%E9%A1%B5%E9%9D%A2%E7%BC%93%E5%AD%98/</link>
+      <pubDate>Sun, 23 Sep 2018 23:26:03 +0000</pubDate>
+      <author>sabo-li@outlook.com (Sabo LI)</author>
+      <guid>http://localhost:1313/posts/rails%E9%A1%B5%E9%9D%A2%E7%BC%93%E5%AD%98/</guid>
+      <description></description>
+      
+    </item>
+    
+    <item>
+      <title>Ruby元编程手册</title>
+      <link>http://localhost:1313/posts/ruby%E5%85%83%E7%BC%96%E7%A8%8B%E6%89%8B%E5%86%8C/</link>
+      <pubDate>Thu, 20 Sep 2018 20:57:10 +0000</pubDate>
+      <author>sabo-li@outlook.com (Sabo LI)</author>
+      <guid>http://localhost:1313/posts/ruby%E5%85%83%E7%BC%96%E7%A8%8B%E6%89%8B%E5%86%8C/</guid>
+      <description></description>
+      
+    </item>
+    
+  </channel>
+</rss>

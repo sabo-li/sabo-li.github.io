@@ -1,0 +1,2090 @@
+<!DOCTYPE html>
+<html lang="zh-CN" dir="ltr" class="scroll-smooth" data-default-appearance="light"
+  data-auto-appearance="true"><head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+  <meta charset="utf-8" />
+  
+  <meta http-equiv="content-language" content="zh-CN" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+  
+  <title>GitLab&#43;Jenkins&#43;K8S(生产环境可CI/CD模拟) &middot; Sabo LI</title>
+  <meta name="title" content="GitLab&#43;Jenkins&#43;K8S(生产环境可CI/CD模拟) &middot; Sabo LI" />
+  
+  <meta name="description" content="心很脆弱，你得学会哄它，不管碰到多大困难，告诉你的心，All is well。" />
+  <meta name="keywords" content="GitLab, Jenkins, K8S, " />
+  
+  
+  <link rel="canonical" href="http://localhost:1313/posts/2020-07-11-gitlab-jenkins-k8s-%E7%94%9F%E4%BA%A7%E7%8E%AF%E5%A2%83%E5%8F%AFci-cd%E6%A8%A1%E6%8B%9F/" />
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <link type="text/css" rel="stylesheet" href="/css/main.bundle.min.5f8f4777872a0d3d0d40b3754a43f54f29ae82af8e7ee8b8cb972495c44f0d770b15cd4194b7a49bc85950ac492768c127b305a57fc92ed77bf7e230fb6530a4.css"
+    integrity="sha512-X49Hd4cqDT0NQLN1SkP1Tymugq&#43;Ofui4y5cklcRPDXcLFc1BlLekm8hZUKxJJ2jBJ7MFpX/JLtd79&#43;Iw&#43;2UwpA==" />
+  
+  
+  <script type="text/javascript" src="/js/appearance.min.516a16745bea5a9bd011138d254cc0fd3973cd55ce6e15f3dec763e7c7c2c7448f8fe7b54cca811cb821b0c7e12cd161caace1dd794ac3d34d40937cbcc9ee12.js"
+    integrity="sha512-UWoWdFvqWpvQERONJUzA/TlzzVXObhXz3sdj58fCx0SPj&#43;e1TMqBHLghsMfhLNFhyqzh3XlKw9NNQJN8vMnuEg=="></script>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <script defer type="text/javascript" id="script-bundle" src="/js/main.bundle.min.165327e9b2a9a8807ad5cb6c943a8f9a52756791c128e2dbfb3623bb42429636adb4bbb076b0447b592cad02914321a6aef0db10b907465de34fda41e2830281.js"
+    integrity="sha512-FlMn6bKpqIB61ctslDqPmlJ1Z5HBKOLb&#43;zYju0JCljattLuwdrBEe1ksrQKRQyGmrvDbELkHRl3jT9pB4oMCgQ==" data-copy="复制" data-copied="已复制"></script>
+  
+  
+  
+  <script src="/lib/zoom/zoom.min.f592a181a15d2a5b042daa7f746c3721acf9063f8b6acd175d989129865a37d400ae0e85b640f9ad42cd98d1f8ad30931718cf8811abdcc5fcb264400d1a2b0c.js" integrity="sha512-9ZKhgaFdKlsELap/dGw3Iaz5Bj&#43;Las0XXZiRKYZaN9QArg6FtkD5rULNmNH4rTCTFxjPiBGr3MX8smRADRorDA=="></script>
+  
+  
+  
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+  <link rel="manifest" href="/site.webmanifest" />
+  
+  
+  
+  
+  
+  
+  
+  
+  <meta property="og:url" content="http://localhost:1313/posts/2020-07-11-gitlab-jenkins-k8s-%E7%94%9F%E4%BA%A7%E7%8E%AF%E5%A2%83%E5%8F%AFci-cd%E6%A8%A1%E6%8B%9F/">
+  <meta property="og:site_name" content="Sabo LI">
+  <meta property="og:title" content="GitLab&#43;Jenkins&#43;K8S(生产环境可CI/CD模拟)">
+  <meta property="og:description" content="心很脆弱，你得学会哄它，不管碰到多大困难，告诉你的心，All is well。">
+  <meta property="og:locale" content="zh_CN">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2020-07-11T18:43:31+00:00">
+    <meta property="article:modified_time" content="2020-07-11T18:43:31+00:00">
+    <meta property="article:tag" content="GitLab">
+    <meta property="article:tag" content="Jenkins">
+    <meta property="article:tag" content="K8S">
+
+  
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="GitLab&#43;Jenkins&#43;K8S(生产环境可CI/CD模拟)">
+  <meta name="twitter:description" content="心很脆弱，你得学会哄它，不管碰到多大困难，告诉你的心，All is well。">
+
+    
+  
+  
+  <script type="application/ld+json">
+  [{
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "articleSection": "Posts",
+    "name": "GitLab\u002bJenkins\u002bK8S(生产环境可CI\/CD模拟)",
+    "headline": "GitLab\u002bJenkins\u002bK8S(生产环境可CI\/CD模拟)",
+    
+    
+    "inLanguage": "zh-CN",
+    "url" : "http:\/\/localhost:1313\/posts\/2020-07-11-gitlab-jenkins-k8s-%E7%94%9F%E4%BA%A7%E7%8E%AF%E5%A2%83%E5%8F%AFci-cd%E6%A8%A1%E6%8B%9F\/",
+    "author" : {
+      "@type": "Person",
+      "name": "Sabo LI"
+    },
+    "copyrightYear": "2020",
+    "dateCreated": "2020-07-11T18:43:31\u002b00:00",
+    "datePublished": "2020-07-11T18:43:31\u002b00:00",
+    
+    "dateModified": "2020-07-11T18:43:31\u002b00:00",
+    
+    "keywords": ["GitLab","Jenkins","K8S"],
+    
+    "mainEntityOfPage": "true",
+    "wordCount": "1438"
+  }]
+  </script>
+
+
+  
+  
+  <meta name="author" content="Sabo LI" />
+  
+  
+  
+  
+  <link href="https://github.com/sabo-li" rel="me" />
+  
+  
+  
+  
+  
+
+<script src="/lib/jquery/jquery.slim.min.b0dca576e87d7eaa5850ae4e61759c065786cdb6489d68fcc82240539eebd5da522bdb4fda085ffd245808c8fe2acb2516408eb774ef26b5f6015fc6737c0ea8.js" integrity="sha512-sNylduh9fqpYUK5OYXWcBleGzbZInWj8yCJAU57r1dpSK9tP2ghf/SRYCMj&#43;KsslFkCOt3TvJrX2AV/Gc3wOqA=="></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+
+
+
+  
+  
+  
+  
+  <meta name="theme-color"/>
+  
+  
+</head>
+<body
+  class="flex flex-col h-screen px-6 m-auto text-lg leading-7 max-w-7xl bg-neutral text-neutral-900 dark:bg-neutral-800 dark:text-neutral sm:px-14 md:px-24 lg:px-32 scrollbar-thin scrollbar-track-neutral-200 scrollbar-thumb-neutral-400 dark:scrollbar-track-neutral-800 dark:scrollbar-thumb-neutral-600">
+  <div id="the-top" class="absolute flex self-center">
+    <a class="px-3 py-1 text-sm -translate-y-8 rounded-b-lg bg-primary-200 focus:translate-y-0 dark:bg-neutral-600"
+      href="#main-content"><span
+        class="font-bold text-primary-600 ltr:pr-2 rtl:pl-2 dark:text-primary-400">&darr;</span>跳过正文</a>
+  </div>
+  
+  
+  <div style="padding-left:0;padding-right:0;padding-top:2px;padding-bottom:3px"
+    class="main-menu flex items-center justify-between px-4 py-6 sm:px-6 md:justify-start gap-x-3">
+    
+    <div class="flex flex-1 items-center justify-between">
+        <nav class="flex space-x-3">
+
+            
+            <a href="/" class="text-base font-medium text-gray-500 hover:text-gray-900">Sabo LI</a>
+            
+
+        </nav>
+        <nav class="hidden md:flex items-center gap-x-5 md:ml-12 h-12">
+
+            
+            
+            
+  <a href="/posts/"  class="flex items-center text-gray-500 hover:text-primary-600 dark:hover:text-primary-400">
+    
+    <p class="text-base font-medium" title="Posts">
+        Blog
+    </p>
+</a>
+
+
+
+            
+            
+  <a href="/categories/"  class="flex items-center text-gray-500 hover:text-primary-600 dark:hover:text-primary-400">
+    
+    <p class="text-base font-medium" title="Categories">
+        Categories
+    </p>
+</a>
+
+
+
+            
+            
+  <a href="/tags/"  class="flex items-center text-gray-500 hover:text-primary-600 dark:hover:text-primary-400">
+    
+    <p class="text-base font-medium" title="Tags">
+        Tags
+    </p>
+</a>
+
+
+
+            
+            
+
+            
+
+
+            
+            <button id="search-button" aria-label="Search" class="text-base hover:text-primary-600 dark:hover:text-primary-400"
+                title="">
+                
+
+  <span class="relative block icon">
+    <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="search" class="svg-inline--fa fa-search fa-w-16" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M505 442.7L405.3 343c-4.5-4.5-10.6-7-17-7H372c27.6-35.3 44-79.7 44-128C416 93.1 322.9 0 208 0S0 93.1 0 208s93.1 208 208 208c48.3 0 92.7-16.4 128-44v16.3c0 6.4 2.5 12.5 7 17l99.7 99.7c9.4 9.4 24.6 9.4 33.9 0l28.3-28.3c9.4-9.4 9.4-24.6.1-34zM208 336c-70.7 0-128-57.2-128-128 0-70.7 57.2-128 128-128 70.7 0 128 57.2 128 128 0 70.7-57.2 128-128 128z"/></svg>
+
+  </span>
+
+
+            </button>
+            
+
+
+            
+            
+            <div
+                class=" flex items-center">
+                <button id="appearance-switcher" aria-label="Dark mode switcher" type="button" class="text-base hover:text-primary-600 dark:hover:text-primary-400">
+                    <div class="flex items-center justify-center dark:hidden">
+                        
+
+  <span class="relative block icon">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M32 256c0-123.8 100.3-224 223.8-224c11.36 0 29.7 1.668 40.9 3.746c9.616 1.777 11.75 14.63 3.279 19.44C245 86.5 211.2 144.6 211.2 207.8c0 109.7 99.71 193 208.3 172.3c9.561-1.805 16.28 9.324 10.11 16.95C387.9 448.6 324.8 480 255.8 480C132.1 480 32 379.6 32 256z"/></svg>
+
+  </span>
+
+
+                    </div>
+                    <div class="items-center justify-center hidden dark:flex">
+                        
+
+  <span class="relative block icon">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M256 159.1c-53.02 0-95.1 42.98-95.1 95.1S202.1 351.1 256 351.1s95.1-42.98 95.1-95.1S309 159.1 256 159.1zM509.3 347L446.1 255.1l63.15-91.01c6.332-9.125 1.104-21.74-9.826-23.72l-109-19.7l-19.7-109c-1.975-10.93-14.59-16.16-23.72-9.824L256 65.89L164.1 2.736c-9.125-6.332-21.74-1.107-23.72 9.824L121.6 121.6L12.56 141.3C1.633 143.2-3.596 155.9 2.736 164.1L65.89 256l-63.15 91.01c-6.332 9.125-1.105 21.74 9.824 23.72l109 19.7l19.7 109c1.975 10.93 14.59 16.16 23.72 9.824L256 446.1l91.01 63.15c9.127 6.334 21.75 1.107 23.72-9.822l19.7-109l109-19.7C510.4 368.8 515.6 356.1 509.3 347zM256 383.1c-70.69 0-127.1-57.31-127.1-127.1c0-70.69 57.31-127.1 127.1-127.1s127.1 57.3 127.1 127.1C383.1 326.7 326.7 383.1 256 383.1z"/></svg>
+
+  </span>
+
+
+                    </div>
+                </button>
+            </div>
+            
+
+        </nav>
+        <div class="flex md:hidden items-center gap-x-5 md:ml-12 h-12">
+
+            <span></span>
+
+            
+
+
+            
+            <button id="search-button-mobile" aria-label="Search" class="text-base hover:text-primary-600 dark:hover:text-primary-400"
+                title="">
+                
+
+  <span class="relative block icon">
+    <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="search" class="svg-inline--fa fa-search fa-w-16" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M505 442.7L405.3 343c-4.5-4.5-10.6-7-17-7H372c27.6-35.3 44-79.7 44-128C416 93.1 322.9 0 208 0S0 93.1 0 208s93.1 208 208 208c48.3 0 92.7-16.4 128-44v16.3c0 6.4 2.5 12.5 7 17l99.7 99.7c9.4 9.4 24.6 9.4 33.9 0l28.3-28.3c9.4-9.4 9.4-24.6.1-34zM208 336c-70.7 0-128-57.2-128-128 0-70.7 57.2-128 128-128 70.7 0 128 57.2 128 128 0 70.7-57.2 128-128 128z"/></svg>
+
+  </span>
+
+
+            </button>
+            
+
+            
+            
+            <button id="appearance-switcher-mobile" aria-label="Dark mode switcher" type="button" class="text-base hover:text-primary-600 dark:hover:text-primary-400 ltr:mr-1 rtl:ml-1">
+                <div class="flex items-center justify-center dark:hidden">
+                    
+
+  <span class="relative block icon">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M32 256c0-123.8 100.3-224 223.8-224c11.36 0 29.7 1.668 40.9 3.746c9.616 1.777 11.75 14.63 3.279 19.44C245 86.5 211.2 144.6 211.2 207.8c0 109.7 99.71 193 208.3 172.3c9.561-1.805 16.28 9.324 10.11 16.95C387.9 448.6 324.8 480 255.8 480C132.1 480 32 379.6 32 256z"/></svg>
+
+  </span>
+
+
+                </div>
+                <div class="items-center justify-center hidden dark:flex">
+                    
+
+  <span class="relative block icon">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M256 159.1c-53.02 0-95.1 42.98-95.1 95.1S202.1 351.1 256 351.1s95.1-42.98 95.1-95.1S309 159.1 256 159.1zM509.3 347L446.1 255.1l63.15-91.01c6.332-9.125 1.104-21.74-9.826-23.72l-109-19.7l-19.7-109c-1.975-10.93-14.59-16.16-23.72-9.824L256 65.89L164.1 2.736c-9.125-6.332-21.74-1.107-23.72 9.824L121.6 121.6L12.56 141.3C1.633 143.2-3.596 155.9 2.736 164.1L65.89 256l-63.15 91.01c-6.332 9.125-1.105 21.74 9.824 23.72l109 19.7l19.7 109c1.975 10.93 14.59 16.16 23.72 9.824L256 446.1l91.01 63.15c9.127 6.334 21.75 1.107 23.72-9.822l19.7-109l109-19.7C510.4 368.8 515.6 356.1 509.3 347zM256 383.1c-70.69 0-127.1-57.31-127.1-127.1c0-70.69 57.31-127.1 127.1-127.1s127.1 57.3 127.1 127.1C383.1 326.7 326.7 383.1 256 383.1z"/></svg>
+
+  </span>
+
+
+                </div>
+            </button>
+            
+
+        </div>
+    </div>
+    <div class="-my-2 md:hidden">
+
+        <label id="menu-button" class="block">
+            
+            <div class="cursor-pointer hover:text-primary-600 dark:hover:text-primary-400">
+                
+
+  <span class="relative block icon">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path fill="currentColor" d="M0 96C0 78.33 14.33 64 32 64H416C433.7 64 448 78.33 448 96C448 113.7 433.7 128 416 128H32C14.33 128 0 113.7 0 96zM0 256C0 238.3 14.33 224 32 224H416C433.7 224 448 238.3 448 256C448 273.7 433.7 288 416 288H32C14.33 288 0 273.7 0 256zM416 448H32C14.33 448 0 433.7 0 416C0 398.3 14.33 384 32 384H416C433.7 384 448 398.3 448 416C448 433.7 433.7 448 416 448z"/></svg>
+
+  </span>
+
+
+            </div>
+            <div id="menu-wrapper" style="padding-top:5px;"
+                class="fixed inset-0 z-30 invisible w-screen h-screen m-0 overflow-auto transition-opacity opacity-0 cursor-default bg-neutral-100/50 backdrop-blur-sm dark:bg-neutral-900/50">
+                <ul
+                    class="flex space-y-2 mt-3 flex-col items-end w-full px-6 py-6 mx-auto overflow-visible list-none ltr:text-right rtl:text-left max-w-7xl">
+
+                    <li id="menu-close-button">
+                        <span
+                            class="cursor-pointer inline-block align-text-bottom hover:text-primary-600 dark:hover:text-primary-400">
+
+  <span class="relative block icon">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><path fill="currentColor" d="M310.6 361.4c12.5 12.5 12.5 32.75 0 45.25C304.4 412.9 296.2 416 288 416s-16.38-3.125-22.62-9.375L160 301.3L54.63 406.6C48.38 412.9 40.19 416 32 416S15.63 412.9 9.375 406.6c-12.5-12.5-12.5-32.75 0-45.25l105.4-105.4L9.375 150.6c-12.5-12.5-12.5-32.75 0-45.25s32.75-12.5 45.25 0L160 210.8l105.4-105.4c12.5-12.5 32.75-12.5 45.25 0s12.5 32.75 0 45.25l-105.4 105.4L310.6 361.4z"/></svg>
+
+  </span>
+
+</span>
+                    </li>
+
+                    
+
+                    
+  <li class="mt-1">
+    <a href="/posts/"  class="flex items-center text-gray-500 hover:text-primary-600 dark:hover:text-primary-400">
+        
+        <p class="text-bg font-bg" title="Posts">
+            Blog
+        </p>
+    </a>
+</li>
+
+
+
+
+                    
+
+                    
+  <li class="mt-1">
+    <a href="/categories/"  class="flex items-center text-gray-500 hover:text-primary-600 dark:hover:text-primary-400">
+        
+        <p class="text-bg font-bg" title="Categories">
+            Categories
+        </p>
+    </a>
+</li>
+
+
+
+
+                    
+
+                    
+  <li class="mt-1">
+    <a href="/tags/"  class="flex items-center text-gray-500 hover:text-primary-600 dark:hover:text-primary-400">
+        
+        <p class="text-bg font-bg" title="Tags">
+            Tags
+        </p>
+    </a>
+</li>
+
+
+
+
+                    
+
+                </ul>
+                
+                
+
+            </div>
+        </label>
+    </div>
+</div>
+
+
+
+
+
+  
+  <div class="relative flex flex-col grow">
+    <main id="main-content" class="grow">
+      
+
+
+<article>
+  
+
+  <header id="single_header" class="mt-5 max-w-prose">
+    
+    <h1 class="mt-0 text-4xl font-extrabold text-neutral-900 dark:text-neutral">
+      GitLab+Jenkins+K8S(生产环境可CI/CD模拟)
+    </h1>
+    <div class="mt-1 mb-6 text-base text-neutral-500 dark:text-neutral-400 print:hidden">
+      
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="flex flex-row flex-wrap items-center">
+  
+  
+  <time datetime="2020-07-11T18:43:31&#43;00:00">2020年07月11日</time><span class="px-2 text-primary-500">&middot;</span><span>1438 字</span><span class="px-2 text-primary-500">&middot;</span><span title="预计阅读">7 分钟</span>
+  
+
+  
+  
+</div>
+
+
+
+
+
+
+
+
+
+
+
+    </div>
+
+    
+    
+    
+    
+    
+
+    
+
+    
+      
+      
+        
+        
+<div class="flex author">
+  
+    
+    
+      
+    
+    
+      
+        
+      
+      <img class="!mt-0 !mb-0 h-24 w-24 rounded-full ltr:mr-4 rtl:ml-4" width="96" height="96"
+      alt="Sabo LI" src="/img/blowfish_logo_hu_e74a130226122ae3.png" />
+    
+  
+  <div class="place-self-center">
+    
+    <div class="text-[0.6rem] uppercase leading-3 text-neutral-500 dark:text-neutral-400">
+      作者
+    </div>
+    <div class="font-semibold leading-6 text-neutral-800 dark:text-neutral-300">
+      Sabo LI
+    </div>
+    
+    
+    <div class="text-sm text-neutral-700 dark:text-neutral-400">一切皆好</div>
+    
+    <div class="text-2xl sm:text-lg">
+  <div class="flex flex-wrap text-neutral-400 dark:text-neutral-500">
+    
+      
+        <a
+          class="px-1 hover:text-primary-700 dark:hover:text-primary-400"
+          href="https://github.com/sabo-li"
+          target="_blank"
+          aria-label="Github"
+          rel="me noopener noreferrer"
+          ><span class="inline-block align-text-bottom">
+
+  <span class="relative block icon">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><path fill="currentColor" d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg>
+
+  </span>
+
+</span></a
+        >
+      
+    
+  </div>
+
+</div>
+  </div>
+</div>
+
+      
+
+      
+
+      
+      <div class="mb-5"></div>
+      
+
+    
+
+  </header>
+  
+  <section class="flex flex-col max-w-full mt-0 prose dark:prose-invert lg:flex-row">
+    
+    
+
+      <div class="min-w-0 min-h-0 max-w-fit">
+        
+        
+
+
+        <div class="article-content max-w-prose mb-20">
+          <p>该文档复制自<a href="https://www.feiyiblog.com/2020/05/11/Docker-k8s-GitLab-Jenkins-%E7%94%9F%E6%88%90%E7%8E%AF%E5%A2%83%E5%8F%AFCI-CD%E6%A8%A1%E6%8B%9F/" target="_blank">Docker+k8s+GitLab+Jenkins(生产环境可CI/CD模拟)</a></p>
+<p>这个环境仅做参考</p>
+<blockquote>
+<p>通过Docker+k8s来部署web集群，GitLab+Jenkins实现代码自动化部署，在Jenkins中通过构建脚本，实现k8s对容器web集群代码自动更新</p></blockquote>
+<!-- more -->
+
+<h1 class="relative group">运行环境 
+    <div id="运行环境" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100">
+        <a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700"
+            style="text-decoration-line: none !important;" href="#%e8%bf%90%e8%a1%8c%e7%8e%af%e5%a2%83" aria-label="锚点">#</a>
+    </span>        
+    
+</h1>
+<table>
+  <thead>
+      <tr>
+          <th style="text-align: left">ip</th>
+          <th style="text-align: left">服务</th>
+          <th style="text-align: left">备注</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left">192.168.1.1</td>
+          <td style="text-align: left">GitLab</td>
+          <td style="text-align: left">内存4G，双核CPU（CentOS7.8）</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">192.168.1.4</td>
+          <td style="text-align: left">Jenkins</td>
+          <td style="text-align: left">内核2G，双核CPU（CentOS7.8）</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">192.168.1.11</td>
+          <td style="text-align: left">Docker+k8s-master</td>
+          <td style="text-align: left">内核2G，双核CPU（CentOS7.8）</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">192.168.1.12</td>
+          <td style="text-align: left">Docker+k8s-node1</td>
+          <td style="text-align: left">内核2G，双核CPU（CentOS7.8）</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">192.168.1.13</td>
+          <td style="text-align: left">Docker+k8s-node2</td>
+          <td style="text-align: left">内核2G，双核CPU（CentOS7.8）</td>
+      </tr>
+  </tbody>
+</table>
+
+<h1 class="relative group">部署目的 
+    <div id="部署目的" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100">
+        <a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700"
+            style="text-decoration-line: none !important;" href="#%e9%83%a8%e7%bd%b2%e7%9b%ae%e7%9a%84" aria-label="锚点">#</a>
+    </span>        
+    
+</h1>
+<p>在开发进行代码的更新后，上传到GitLab，Jenkins根据webhook发现代码的更新后，进行代码构建和k8s中的自动部署，展现到web界面中</p>
+
+<h1 class="relative group">搭建GitLab 
+    <div id="搭建gitlab" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100">
+        <a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700"
+            style="text-decoration-line: none !important;" href="#%e6%90%ad%e5%bb%bagitlab" aria-label="锚点">#</a>
+    </span>        
+    
+</h1>
+<p>参考文档<a href="https://www.feiyiblog.com/2020/03/06/Git%e7%89%88%e6%9c%ac%e6%8e%a7%e5%88%b6/" target="_blank">Git搭建</a>和<a href="https://www.feiyiblog.com/2020/03/07/GitLab%e5%9c%a8%e7%ba%bf%e4%bb%a3%e7%a0%81%e4%bb%93%e5%ba%93%e6%89%98%e7%ae%a1/" target="_blank">GitLab搭建</a></p>
+<p>除了程序是通过yum安装的没有什么不同</p>
+
+<h2 class="relative group">192.168.1.1 
+    <div id="19216811" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100">
+        <a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700"
+            style="text-decoration-line: none !important;" href="#19216811" aria-label="锚点">#</a>
+    </span>        
+    
+</h2>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># hostnamectl set-hostname gitlab</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># bash</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@gitlab ~<span class="o">]</span><span class="c1"># vim /etc/hosts</span>
+</span></span><span class="line"><span class="cl">192.168.1.1 gitlab
+</span></span><span class="line"><span class="cl">192.168.1.4 jenkins
+</span></span></code></pre></div><p>开启路由转发</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@gitlab ~<span class="o">]</span><span class="c1"># echo &#34;net.ipv4.ip_forward = 1&#34; &gt;&gt; /etc/sysctl.conf</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@gitlab ~<span class="o">]</span><span class="c1"># sysctl -p</span>
+</span></span><span class="line"><span class="cl">net.ipv4.ip_forward <span class="o">=</span> <span class="m">1</span>
+</span></span></code></pre></div><p>安装Git</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@gitlab ~<span class="o">]</span><span class="c1"># yum -y install git</span>
+</span></span></code></pre></div><p>配置GitLab的repo源</p>
+<p>使用清华大学的repo源</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@gitlab ~<span class="o">]</span><span class="c1"># cat &lt;&lt;EOF&gt; /etc/yum.repos.d/gitlab-ce.repo</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>gitlab-ce<span class="o">]</span>
+</span></span><span class="line"><span class="cl"><span class="nv">name</span><span class="o">=</span>Gitlab CE Repository
+</span></span><span class="line"><span class="cl"><span class="nv">baseurl</span><span class="o">=</span>https://mirrors.tuna.tsinghua.edu.cn/gitlab-ce/yum/el7/
+</span></span><span class="line"><span class="cl"><span class="nv">gpgcheck</span><span class="o">=</span><span class="m">0</span>
+</span></span><span class="line"><span class="cl"><span class="nv">enabled</span><span class="o">=</span><span class="m">1</span>
+</span></span><span class="line"><span class="cl">EOF
+</span></span></code></pre></div><p>安装GitLab</p>
+<p>使用yum安装的最新版本发现对密钥问题还有点不稳定</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@gitlab ~<span class="o">]</span><span class="c1"># yum -y install gitlab-ce</span>
+</span></span></code></pre></div><p>将 SELinux 设置为禁用，可解决设置gitlab公钥后不生效，而且还需要输入账号密码（这个问题我找了十多个小时😓）</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@gitlab ~<span class="o">]</span><span class="c1"># setenforce 0</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@gitlab ~<span class="o">]</span><span class="c1"># sed -i &#39;s/^SELINUX=enforcing$/SELINUX=disabled/&#39; /etc/selinux/config</span>
+</span></span></code></pre></div><p>生产环境中需要修改访问GitLab的域名或者ip</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># vim /etc/gitlab/gitlab.rb</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># 将external_url &#39;http://gitlab.example.com&#39;</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># 修改为external_url &#39;http://192.168.1.1&#39;，本机域名或者ip</span>
+</span></span></code></pre></div><p>初始化GitLab</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@gitlab ~<span class="o">]</span><span class="c1"># gitlab-ctl reconfigure   # 第一次需要很长时间</span>
+</span></span></code></pre></div><p>启动GitLab</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@gitlab ~<span class="o">]</span><span class="c1"># gitlab-ctl start</span>
+</span></span></code></pre></div><p>放行端口</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@gitlab ~<span class="o">]</span><span class="c1"># firewall-cmd --permanent --add-service=http</span>
+</span></span><span class="line"><span class="cl">success
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@gitlab ~<span class="o">]</span><span class="c1"># firewall-cmd --reload</span>
+</span></span><span class="line"><span class="cl">success
+</span></span></code></pre></div><p>登陆到Web管理界面设置的登录密码</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">http://192.168.1.1
+</span></span></code></pre></div><p>
+
+
+
+
+
+<figure>
+    <img class="my-0 rounded-md" loading="lazy" alt="GitLab" src="/assets/images/2020-07-11/set_password.png" />
+
+  
+</figure>
+</p>
+<p>默认用户为root</p>
+<p>
+
+
+
+
+
+<figure>
+    <img class="my-0 rounded-md" loading="lazy" alt="GitLab" src="/assets/images/2020-07-11/first_login.png" />
+
+  
+</figure>
+</p>
+<p>登录成功</p>
+<p>
+
+
+
+
+
+<figure>
+    <img class="my-0 rounded-md" loading="lazy" alt="img" src="/assets/images/2020-07-11/gitlab_login.png" />
+
+  
+</figure>
+</p>
+
+<h1 class="relative group">搭建Jenkins 
+    <div id="搭建jenkins" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100">
+        <a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700"
+            style="text-decoration-line: none !important;" href="#%e6%90%ad%e5%bb%bajenkins" aria-label="锚点">#</a>
+    </span>        
+    
+</h1>
+<p>参考文档<a href="https://www.feiyiblog.com/2020/03/10/Jenkins%e4%bb%a3%e7%a0%81%e8%87%aa%e5%8a%a8%e5%8c%96/" target="_blank">Jenkins搭建</a></p>
+<p>除了程序是通过yum安装的没有什么不同</p>
+
+<h2 class="relative group">192.168.1.4 
+    <div id="19216814" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100">
+        <a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700"
+            style="text-decoration-line: none !important;" href="#19216814" aria-label="锚点">#</a>
+    </span>        
+    
+</h2>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># hostnamectl set-hostname jenkins</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># bash</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@jenkins ~<span class="o">]</span><span class="c1"># vim /etc/hosts</span>
+</span></span><span class="line"><span class="cl">192.168.1.1 gitlab
+</span></span><span class="line"><span class="cl">192.168.1.4 jenkins
+</span></span><span class="line"><span class="cl">192.168.1.11 k8s-master
+</span></span><span class="line"><span class="cl">192.168.1.12 k8s-node1
+</span></span><span class="line"><span class="cl">192.168.1.13 k8s-node2
+</span></span></code></pre></div><p>准备Java环境</p>
+<p>使用1.8的Java环境</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@jenkins ~<span class="o">]</span><span class="c1"># yum -y install java-1.8.0-openjdk*</span>
+</span></span></code></pre></div><p>编写Jenkins的repo源</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@jenkins ~<span class="o">]</span><span class="c1"># cat &lt;&lt;EOF&gt; /etc/yum.repos.d/jenkins.repo</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>jenkins<span class="o">]</span>
+</span></span><span class="line"><span class="cl"><span class="nv">name</span><span class="o">=</span>Jenkins-stable
+</span></span><span class="line"><span class="cl"><span class="nv">baseurl</span><span class="o">=</span>https://mirrors.tuna.tsinghua.edu.cn/jenkins/redhat-stable/
+</span></span><span class="line"><span class="cl"><span class="nv">gpgcheck</span><span class="o">=</span><span class="m">1</span>
+</span></span><span class="line"><span class="cl">EOF
+</span></span><span class="line"><span class="cl"><span class="c1"># 导入rpm密钥</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@jenkins ~<span class="o">]</span><span class="c1"># rpm --import https://pkg.jenkins.io/redhat-stable/jenkins.io.key</span>
+</span></span></code></pre></div><p>安装Jenkins</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@jenkins ~<span class="o">]</span><span class="c1"># yum -y install https://mirrors.tuna.tsinghua.edu.cn/jenkins/redhat-stable/jenkins-2.235.1-1.1.noarch.rpm</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@jenkins ~<span class="o">]</span><span class="c1"># yum -y install git</span>
+</span></span></code></pre></div><p>安装加速神奇，Jenkins默认使用google来搜索插件的下载，而且插件也在国外网站，这里将updates目录中的<code>default.json</code>内的url换为百度（搜索引擎）和清华（下载插件地址），<strong>前提必须出现过以上界面才会有updates目录</strong></p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@jenkins ~<span class="o">]</span><span class="c1"># sed -i &#39;s/http:\/\/www.google.com/https:\/\/www.baidu.com/g&#39; /var/lib/jenkins/updates/default.json</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@jenkins ~<span class="o">]</span><span class="c1"># sed -i &#39;s/http:\/\/updates.jenkins-ci.org\/download/https:\/\/mirrors.tuna.tsinghua.edu.cn\/jenkins/g&#39; /var/lib/jenkins/updates/default.json</span>
+</span></span></code></pre></div><p>启动Jenkins，并放行8080端口</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@jenkins ~<span class="o">]</span><span class="c1"># systemctl start jenkins</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@jenkins ~<span class="o">]</span><span class="c1"># systemctl enable jenkins</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@jenkins ~<span class="o">]</span><span class="c1"># firewall-cmd --permanent --add-port=8080/tcp</span>
+</span></span><span class="line"><span class="cl">success
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@jenkins ~<span class="o">]</span><span class="c1"># firewall-cmd --reload</span>
+</span></span><span class="line"><span class="cl">success
+</span></span></code></pre></div><p>进入Jenkins的web安装界</p>
+<p>访问<code>http://192.168.1.4:8080</code></p>
+<p>
+
+
+
+
+
+<figure>
+    <img class="my-0 rounded-md" loading="lazy" alt="Jenkins" src="/assets/images/2020-07-11/wait_jiemian.png" />
+
+  
+</figure>
+</p>
+<p>在Linux本地查看管理员密码</p>
+<p>
+
+
+
+
+
+<figure>
+    <img class="my-0 rounded-md" loading="lazy" alt="Jenkins" src="/assets/images/2020-07-11/lock_jenkins.png" />
+
+  
+</figure>
+</p>
+<p>输入密码后，如果出现此界面</p>
+<p>
+
+
+
+
+
+<figure>
+    <img class="my-0 rounded-md" loading="lazy" alt="Jenkins" src="/assets/images/2020-07-11/shaowait.png" />
+
+  
+</figure>
+</p>
+<p>如果出现以下</p>
+<p>
+
+
+
+
+
+<figure>
+    <img class="my-0 rounded-md" loading="lazy" alt="Jenkins" src="/assets/images/2020-07-11/lixian.png" />
+
+  
+</figure>
+</p>
+<p>解决方法如下：</p>
+<pre tabindex="0"><code>第一步 打开插件管理的高级设置页面
+http://192.168.1.4:8080/pluginManager/advanced
+
+第二步 修改更新站点地址
+将https改为http  如果不行 可以用清华的加速站点 如下
+https://mirrors.tuna.tsinghua.edu.cn/jenkins/updates/update-center.json
+</code></pre><p>安装推荐插件</p>
+<p>
+
+
+
+
+
+<figure>
+    <img class="my-0 rounded-md" loading="lazy" alt="Jenkins" src="/assets/images/2020-07-11/install_chajian.png" />
+
+  
+</figure>
+</p>
+<p>
+
+
+
+
+
+<figure>
+    <img class="my-0 rounded-md" loading="lazy" alt="Jenkins" src="/assets/images/2020-07-11/wait_install.png" />
+
+  
+</figure>
+</p>
+<p>然后重启服务，并重新访问Jenkins的web界面</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@jenkins ~<span class="o">]</span><span class="c1"># systemctl restart jenkins</span>
+</span></span></code></pre></div><p>安装完成后，创建管理用户</p>
+<p>
+
+
+
+
+
+<figure>
+    <img class="my-0 rounded-md" loading="lazy" alt="Jenkins" src="/assets/images/2020-07-11/create_jenkins_user.png" />
+
+  
+</figure>
+</p>
+<p>
+
+
+
+
+
+<figure>
+    <img class="my-0 rounded-md" loading="lazy" alt="Jenkins" src="/assets/images/2020-07-11/shili_config.png" />
+
+  
+</figure>
+</p>
+<p>
+
+
+
+
+
+<figure>
+    <img class="my-0 rounded-md" loading="lazy" alt="Jenkins" src="/assets/images/2020-07-11/jenkins_install_success.png" />
+
+  
+</figure>
+</p>
+<p>在插件管理中安装三个关于GitLab的插件，用于持续集成</p>
+<blockquote>
+<p>Gitlab Authentication</p>
+<p>Gitlab</p>
+<p>Gitlab Hook</p></blockquote>
+<p>选择安装后自动重启Jenkins</p>
+
+<h1 class="relative group">搭建Kubernetes集群 
+    <div id="搭建kubernetes集群" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100">
+        <a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700"
+            style="text-decoration-line: none !important;" href="#%e6%90%ad%e5%bb%bakubernetes%e9%9b%86%e7%be%a4" aria-label="锚点">#</a>
+    </span>        
+    
+</h1>
+<p>参考本站文档<a href="https://www.feiyiblog.com/2020/03/23/%e5%ae%89%e8%a3%85Docker%e2%80%94%e2%80%94%e9%95%9c%e5%83%8f%e5%8a%a0%e9%80%9f/" target="_blank">Docker安装</a>和<a href="https://www.feiyiblog.com/2020/04/17/kubernetes%e5%ae%89%e8%a3%85%e5%8f%8a%e9%9b%86%e7%be%a4%e6%90%ad%e5%bb%ba/" target="_blank">Kubernetes集群搭建</a></p>
+
+<h2 class="relative group">环境准备 
+    <div id="环境准备" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100">
+        <a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700"
+            style="text-decoration-line: none !important;" href="#%e7%8e%af%e5%a2%83%e5%87%86%e5%a4%87" aria-label="锚点">#</a>
+    </span>        
+    
+</h2>
+<p>按照运行环境中的系统版本和硬件要求</p>
+<p>这里使用的现成的Docker环境，没有的可以参考以上链接部署</p>
+
+<h3 class="relative group">更改主机名 
+    <div id="更改主机名" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100">
+        <a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700"
+            style="text-decoration-line: none !important;" href="#%e6%9b%b4%e6%94%b9%e4%b8%bb%e6%9c%ba%e5%90%8d" aria-label="锚点">#</a>
+    </span>        
+    
+</h3>
+<p><strong>192.168.1.11</strong></p>
+<p>更改主机名，并设置对其他两台节点的免密登录</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># hostnamectl set-hostname k8s-master</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># bash</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@k8s-master ~<span class="o">]</span><span class="c1"># vim /etc/hosts</span>
+</span></span><span class="line"><span class="cl">192.168.1.11 k8s-master
+</span></span><span class="line"><span class="cl">192.168.1.12 k8s-node1
+</span></span><span class="line"><span class="cl">192.168.1.13 k8s-node2
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@k8s-master ~<span class="o">]</span><span class="c1"># ssh-keygen</span>
+</span></span><span class="line"><span class="cl">Generating public/private rsa key pair.
+</span></span><span class="line"><span class="cl">Enter file in which to save the key <span class="o">(</span>/root/.ssh/id_rsa<span class="o">)</span>:
+</span></span><span class="line"><span class="cl">Created directory <span class="s1">&#39;/root/.ssh&#39;</span>.
+</span></span><span class="line"><span class="cl">Enter passphrase <span class="o">(</span>empty <span class="k">for</span> no passphrase<span class="o">)</span>:
+</span></span><span class="line"><span class="cl">Enter same passphrase again:
+</span></span><span class="line"><span class="cl">Your identification has been saved in /root/.ssh/id_rsa.
+</span></span><span class="line"><span class="cl">Your public key has been saved in /root/.ssh/id_rsa.pub.
+</span></span><span class="line"><span class="cl">The key fingerprint is:
+</span></span><span class="line"><span class="cl">SHA256:y0cMv9gJDShPYbfH/+WUbwtLJivwGTNv4EVT6TpxXHQ root@k8s-master
+</span></span><span class="line"><span class="cl">The key<span class="err">&#39;</span>s randomart image is:
+</span></span><span class="line"><span class="cl">+---<span class="o">[</span>RSA 2048<span class="o">]</span>----+
+</span></span><span class="line"><span class="cl"><span class="p">|</span>      o .     o.E<span class="p">|</span>
+</span></span><span class="line"><span class="cl"><span class="p">|</span>     . + o   o ..<span class="p">|</span>
+</span></span><span class="line"><span class="cl"><span class="p">|</span>    . o + o + .  <span class="p">|</span>
+</span></span><span class="line"><span class="cl"><span class="p">|</span>     +   <span class="nv">B</span> <span class="o">=</span> +  .<span class="p">|</span>
+</span></span><span class="line"><span class="cl"><span class="p">|</span>      . S * *  .o<span class="p">|</span>
+</span></span><span class="line"><span class="cl"><span class="p">|</span>       o @ * . +.<span class="p">|</span>
+</span></span><span class="line"><span class="cl"><span class="p">|</span>        B <span class="p">&amp;</span>..+. +<span class="p">|</span>
+</span></span><span class="line"><span class="cl"><span class="p">|</span>         * <span class="nv">o</span><span class="o">=</span> o..<span class="p">|</span>
+</span></span><span class="line"><span class="cl"><span class="p">|</span>          o. . . <span class="p">|</span>
+</span></span><span class="line"><span class="cl">+----<span class="o">[</span>SHA256<span class="o">]</span>-----+
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@k8s-master ~<span class="o">]</span><span class="c1"># ssh-copy-id -i root@k8s-node1</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@k8s-master ~<span class="o">]</span><span class="c1"># ssh-copy-id -i root@k8s-node2</span>
+</span></span></code></pre></div><p>将hosts文件传输到其他两台节点</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@k8s-master ~<span class="o">]</span><span class="c1"># scp /etc/hosts root@k8s-node1:/etc</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@k8s-master ~<span class="o">]</span><span class="c1"># scp /etc/hosts root@k8s-node2:/etc</span>
+</span></span></code></pre></div><p><strong>192.168.1.12</strong></p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># hostnamectl set-hostname k8s-node1</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># bash</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@k8s-node1 ~<span class="o">]</span><span class="c1">#</span>
+</span></span></code></pre></div><p><strong>192.168.1.13</strong></p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># hostnamectl set-hostname k8s-node2</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># bash</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@k8s-node2 ~<span class="o">]</span><span class="c1">#</span>
+</span></span></code></pre></div>
+<h3 class="relative group">关闭沙盒 
+    <div id="关闭沙盒" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100">
+        <a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700"
+            style="text-decoration-line: none !important;" href="#%e5%85%b3%e9%97%ad%e6%b2%99%e7%9b%92" aria-label="锚点">#</a>
+    </span>        
+    
+</h3>
+<p><strong>k8s-master/node1/node2</strong></p>
+<p>将 SELinux 设置为禁用（也可以设置为 permissive 模式）</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@k8s-master ~<span class="o">]</span><span class="c1"># setenforce 0</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@k8s-master ~<span class="o">]</span><span class="c1"># sed -i &#39;s/^SELINUX=enforcing$/SELINUX=disabled/&#39; /etc/selinux/config</span>
+</span></span></code></pre></div>
+<h3 class="relative group">开放所需端口 
+    <div id="开放所需端口" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100">
+        <a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700"
+            style="text-decoration-line: none !important;" href="#%e5%bc%80%e6%94%be%e6%89%80%e9%9c%80%e7%ab%af%e5%8f%a3" aria-label="锚点">#</a>
+    </span>        
+    
+</h3>
+<p>防火墙放行端口，因为比较多，省事可以直接<code>systemctl stop firewalld</code></p>
+<p><strong>master节点</strong></p>
+<table>
+  <thead>
+      <tr>
+          <th>协议</th>
+          <th>方向</th>
+          <th>端口范围</th>
+          <th>作用</th>
+          <th>使用者</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>TCP</td>
+          <td>入站</td>
+          <td>6443*</td>
+          <td>Kubernetes API 服务器</td>
+          <td>所有组件</td>
+      </tr>
+      <tr>
+          <td>TCP</td>
+          <td>入站</td>
+          <td>2379-2380</td>
+          <td>etcd server client API</td>
+          <td>kube-apiserver, etcd</td>
+      </tr>
+      <tr>
+          <td>TCP</td>
+          <td>入站</td>
+          <td>10250</td>
+          <td>Kubelet API</td>
+          <td>kubelet 自身、控制平面组件</td>
+      </tr>
+      <tr>
+          <td>TCP</td>
+          <td>入站</td>
+          <td>10251</td>
+          <td>kube-scheduler</td>
+          <td>kube-scheduler 自身</td>
+      </tr>
+      <tr>
+          <td>TCP</td>
+          <td>入站</td>
+          <td>10252</td>
+          <td>kube-controller-manager</td>
+          <td>kube-controller-manager 自身</td>
+      </tr>
+  </tbody>
+</table>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@k8s-master ~<span class="o">]</span><span class="c1"># firewall-cmd --permanent --add-port=6443/tcp</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@k8s-master ~<span class="o">]</span><span class="c1"># firewall-cmd --permanent --add-port=64430-64439/tcp</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@k8s-master ~<span class="o">]</span><span class="c1"># firewall-cmd --permanent --add-port=2379-2380/tcp</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@k8s-master ~<span class="o">]</span><span class="c1"># firewall-cmd --permanent --add-port=10250-10252/tcp</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@k8s-master ~<span class="o">]</span><span class="c1"># firewall-cmd --reload</span>
+</span></span></code></pre></div><p><strong>所有node工作节点</strong></p>
+<table>
+  <thead>
+      <tr>
+          <th>协议</th>
+          <th>方向</th>
+          <th>端口范围</th>
+          <th>作用</th>
+          <th>使用者</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>TCP</td>
+          <td>入站</td>
+          <td>10250</td>
+          <td>Kubelet API</td>
+          <td>kubelet 自身、控制平面组件</td>
+      </tr>
+      <tr>
+          <td>TCP</td>
+          <td>入站</td>
+          <td>30000-32767</td>
+          <td>NodePort 服务**</td>
+          <td>所有组件</td>
+      </tr>
+  </tbody>
+</table>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@k8s-node1 ~<span class="o">]</span><span class="c1"># firewall-cmd --permanent --add-port=10250/tcp</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@k8s-node1 ~<span class="o">]</span><span class="c1"># firewall-cmd --permanent --add-port=30000-32767/tcp</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@k8s-node1 ~<span class="o">]</span><span class="c1"># firewall-cmd --reload</span>
+</span></span></code></pre></div>
+<h3 class="relative group">验证节点UUID 
+    <div id="验证节点uuid" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100">
+        <a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700"
+            style="text-decoration-line: none !important;" href="#%e9%aa%8c%e8%af%81%e8%8a%82%e7%82%b9uuid" aria-label="锚点">#</a>
+    </span>        
+    
+</h3>
+<p>查看每个服务器的uuid，必须不能重复</p>
+<p><strong>k8s-master</strong></p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@k8s-master ~<span class="o">]</span><span class="c1"># cat /sys/class/dmi/id/product_uuid</span>
+</span></span><span class="line"><span class="cl">E2B74D56-23A9-4E8B-620C-555387355616
+</span></span></code></pre></div>
+<h3 class="relative group">关闭swap分区 
+    <div id="关闭swap分区" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100">
+        <a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700"
+            style="text-decoration-line: none !important;" href="#%e5%85%b3%e9%97%adswap%e5%88%86%e5%8c%ba" aria-label="锚点">#</a>
+    </span>        
+    
+</h3>
+<p>三台节点同样的操作</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@k8s-master ~<span class="o">]</span><span class="c1"># swapoff -a</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@k8s-master ~<span class="o">]</span><span class="c1"># vim /etc/fstab</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># 将分区类型为swap的一行注释掉</span>
+</span></span><span class="line"><span class="cl">/dev/mapper/centos-swap swap
+</span></span><span class="line"><span class="cl"><span class="c1"># 还是需要调整内核参数</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@k8s-master ~<span class="o">]</span><span class="c1"># vim /etc/sysctl.conf</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># 末尾添加</span>
+</span></span><span class="line"><span class="cl">vm.swappiness <span class="o">=</span> <span class="m">0</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@k8s-master ~<span class="o">]</span><span class="c1"># sysctl -p</span>
+</span></span></code></pre></div>
+<h3 class="relative group">设置内核参数 
+    <div id="设置内核参数" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100">
+        <a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700"
+            style="text-decoration-line: none !important;" href="#%e8%ae%be%e7%bd%ae%e5%86%85%e6%a0%b8%e5%8f%82%e6%95%b0" aria-label="锚点">#</a>
+    </span>        
+    
+</h3>
+<p>调整iptables桥接流量，依赖于docker的启动，所以需要确保docker已经启动</p>
+<p><strong>k8s-master</strong></p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@k8s-master ~<span class="o">]</span><span class="c1"># vim /etc/sysctl.conf</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># 末尾添加</span>
+</span></span><span class="line"><span class="cl">net.bridge.bridge-nf-call-ip6tables <span class="o">=</span> <span class="m">1</span>
+</span></span><span class="line"><span class="cl">net.bridge.bridge-nf-call-iptables <span class="o">=</span> <span class="m">1</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@k8s-master ~<span class="o">]</span><span class="c1"># sysctl -p</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># 为确保桥接流量不报错，执行以下命令</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@k8s-master ~<span class="o">]</span><span class="c1"># modprobe ip_vs_rr</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@k8s-master ~<span class="o">]</span><span class="c1"># modprobe br_netfilter</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># 将修改好的文件传输到node1和node2</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@k8s-master ~<span class="o">]</span><span class="c1"># scp /etc/sysctl.conf root@k8s-node1:/etc</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@k8s-master ~<span class="o">]</span><span class="c1"># scp /etc/sysctl.conf root@k8s-node2:/etc</span>
+</span></span></code></pre></div><p><strong>k8s-node1</strong></p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@k8s-node1 ~<span class="o">]</span><span class="c1"># sysctl -p</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@k8s-node1 ~<span class="o">]</span><span class="c1"># modprobe ip_vs_rr</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@k8s-node1 ~<span class="o">]</span><span class="c1"># modprobe br_netfilter</span>
+</span></span></code></pre></div><p><strong>k8s-node2</strong></p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@k8s-node2 ~<span class="o">]</span><span class="c1"># sysctl -p</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@k8s-node2 ~<span class="o">]</span><span class="c1"># modprobe ip_vs_rr</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@k8s-node2 ~<span class="o">]</span><span class="c1"># modprobe br_netfilter</span>
+</span></span></code></pre></div>
+<h2 class="relative group">安装Kubernetes 
+    <div id="安装kubernetes" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100">
+        <a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700"
+            style="text-decoration-line: none !important;" href="#%e5%ae%89%e8%a3%85kubernetes" aria-label="锚点">#</a>
+    </span>        
+    
+</h2>
+
+<h3 class="relative group">编写yum源 
+    <div id="编写yum源" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100">
+        <a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700"
+            style="text-decoration-line: none !important;" href="#%e7%bc%96%e5%86%99yum%e6%ba%90" aria-label="锚点">#</a>
+    </span>        
+    
+</h3>
+<p><strong>k8s-master</strong></p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@k8s-master ~<span class="o">]</span><span class="c1"># vim /etc/yum.repos.d/kubernetes.repo</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>kubernetes<span class="o">]</span>
+</span></span><span class="line"><span class="cl"><span class="nv">name</span><span class="o">=</span>Kubernetes
+</span></span><span class="line"><span class="cl"><span class="nv">baseurl</span><span class="o">=</span>https://mirrors.aliyun.com/kubernetes/yum/repos/kubernetes-el7-x86_64/
+</span></span><span class="line"><span class="cl"><span class="nv">enabled</span><span class="o">=</span><span class="m">1</span>
+</span></span><span class="line"><span class="cl"><span class="nv">gpgcheck</span><span class="o">=</span><span class="m">1</span>
+</span></span><span class="line"><span class="cl"><span class="nv">repo_gpgcheck</span><span class="o">=</span><span class="m">1</span>
+</span></span><span class="line"><span class="cl"><span class="nv">gpgkey</span><span class="o">=</span>https://mirrors.aliyun.com/kubernetes/yum/doc/yum-key.gpg https://mirrors.aliyun.com/kubernetes/yum/doc/rpm-package-key.gpg
+</span></span></code></pre></div><p>将yum源传给每台节点</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@k8s-master ~<span class="o">]</span><span class="c1"># scp /etc/yum.repos.d/kubernetes.repo root@k8s-node1:/etc/yum.repos.d/</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@k8s-master ~<span class="o">]</span><span class="c1"># scp /etc/yum.repos.d/kubernetes.repo root@k8s-node2:/etc/yum.repos.d/</span>
+</span></span></code></pre></div>
+<h3 class="relative group">安装k8s 
+    <div id="安装k8s" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100">
+        <a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700"
+            style="text-decoration-line: none !important;" href="#%e5%ae%89%e8%a3%85k8s" aria-label="锚点">#</a>
+    </span>        
+    
+</h3>
+<p><strong>k8s-master/node1/node2</strong></p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@k8s-master ~<span class="o">]</span><span class="c1"># yum -y install kubelet kubeadm kubectl</span>
+</span></span></code></pre></div><p>如果有的节点在yum安装时，报错404，尝试执行<code>rm -rf /var/cache/yum/*</code>后，重新安装</p>
+<p>查看k8s版本</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@k8s-master ~<span class="o">]</span><span class="c1"># kubeadm version</span>
+</span></span><span class="line"><span class="cl">kubeadm version: <span class="p">&amp;</span>version.Info<span class="o">{</span>Major:<span class="s2">&#34;1&#34;</span>, Minor:<span class="s2">&#34;18&#34;</span>, GitVersion:<span class="s2">&#34;v1.18.2&#34;</span>,
+</span></span><span class="line"><span class="cl">GitCommit:<span class="s2">&#34;52c56ce7a8272c798dbc29846288d7cd9fbae032&#34;</span>, GitTreeState:<span class="s2">&#34;clean&#34;</span>,
+</span></span><span class="line"><span class="cl">BuildDate:<span class="s2">&#34;2020-04-16T11:54:15Z&#34;</span>, GoVersion:<span class="s2">&#34;go1.13.9&#34;</span>, Compiler:<span class="s2">&#34;gc&#34;</span>,
+</span></span><span class="line"><span class="cl">Platform:<span class="s2">&#34;linux/amd64&#34;</span><span class="o">}</span>
+</span></span></code></pre></div><p><strong>k8s-master</strong></p>
+<p>安装kubernetes的tab快捷键，只需要在master安装即可</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@k8s-master ~<span class="o">]</span><span class="c1"># yum -y install bash-completion</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@k8s-master ~<span class="o">]</span><span class="c1"># echo &#34;source &lt;(kubectl completion bash)&#34; &gt;&gt; ~/.bashrc &amp;&amp; bash</span>
+</span></span></code></pre></div>
+<h3 class="relative group">启动k8s 
+    <div id="启动k8s" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100">
+        <a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700"
+            style="text-decoration-line: none !important;" href="#%e5%90%af%e5%8a%a8k8s" aria-label="锚点">#</a>
+    </span>        
+    
+</h3>
+<p><strong>k8s-master/node1/node2</strong></p>
+<pre tabindex="0"><code class="language- bash" data-lang=" bash">[root@k8s-master ~]# systemctl enable --now kubelet
+</code></pre>
+<h2 class="relative group">Kubernetes集群搭建 
+    <div id="kubernetes集群搭建" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100">
+        <a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700"
+            style="text-decoration-line: none !important;" href="#kubernetes%e9%9b%86%e7%be%a4%e6%90%ad%e5%bb%ba" aria-label="锚点">#</a>
+    </span>        
+    
+</h2>
+<p><strong>k8s-master</strong></p>
+<p>初始化集群，完成后获取token值</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@k8s-master ~<span class="o">]</span><span class="c1"># kubeadm init --apiserver-advertise-address 192.168.1.11 \</span>
+</span></span><span class="line"><span class="cl">--image-repository registry.aliyuncs.com/google_containers <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>--kubernetes-version v1.18.2 --pod-network-cidr<span class="o">=</span>10.244.0.0/16
+</span></span></code></pre></div><p>使用管理用户（非root）执行以下操作</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@k8s-master ~<span class="o">]</span><span class="c1"># mkdir -p $HOME/.kube</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>admin@k8s-master ~<span class="o">]</span>$ sudo cp -i /etc/kubernetes/admin.conf <span class="nv">$HOME</span>/.kube/config
+</span></span><span class="line"><span class="cl"><span class="o">[</span>admin@k8s-master ~<span class="o">]</span>$ sudo chown <span class="k">$(</span>id -u<span class="k">)</span>:<span class="k">$(</span>id -g<span class="k">)</span> <span class="nv">$HOME</span>/.kube/config
+</span></span></code></pre></div><p>使用root用户执行以下操作</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@k8s-master ~<span class="o">]</span><span class="c1"># echo &#34;export KUBECONFIG=/etc/kubernetes/admin.conf&#34; &gt;&gt; ~/.bashrc &amp;&amp; source ~/.bashrc</span>
+</span></span></code></pre></div>
+<h3 class="relative group">部署集群网络 
+    <div id="部署集群网络" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100">
+        <a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700"
+            style="text-decoration-line: none !important;" href="#%e9%83%a8%e7%bd%b2%e9%9b%86%e7%be%a4%e7%bd%91%e7%bb%9c" aria-label="锚点">#</a>
+    </span>        
+    
+</h3>
+<p>下载flannel网络配置文件，有时候会下载失败，前往<a href="https://github.com/coreos/flannel/blob/master/Documentation/kube-flannel.yml" target="_blank">coreos/flannel 项目</a>手动将内容复制到<code>kube-flannel.yml</code>文件中</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@k8s-master ~<span class="o">]</span><span class="c1"># curl -LO https://raw.githubusercontent.com/coreos/flannel/master/Documentation/kube-flannel.yml</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># 将quay.io改为国内quay-mirror.qiniu.com</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@k8s-master ~<span class="o">]</span><span class="c1"># sed -i s/quay.io/quay-mirror.qiniu.com/g kube-flannel.yml</span>
+</span></span></code></pre></div><p>然后执行以下操作</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@k8s-master ~<span class="o">]</span><span class="c1"># kubectl apply -f kube-flannel.yml</span>
+</span></span></code></pre></div>
+<h3 class="relative group">节点加入集群 
+    <div id="节点加入集群" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100">
+        <a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700"
+            style="text-decoration-line: none !important;" href="#%e8%8a%82%e7%82%b9%e5%8a%a0%e5%85%a5%e9%9b%86%e7%be%a4" aria-label="锚点">#</a>
+    </span>        
+    
+</h3>
+<p>如果之前生成的token值忘了，查看<code>kubeadm token list</code>，还能往上翻看到token值就跳过这步</p>
+<p><strong>k8s-master</strong></p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@k8s-master ~<span class="o">]</span><span class="c1"># kubeadm token list</span>
+</span></span><span class="line"><span class="cl">TOKEN                     TTL         EXPIRES                     USAGES
+</span></span><span class="line"><span class="cl">jppmrh.1hovp0cyt4xu2w1l   23h         2020-05-11T02:05:53+08:00   authentication,signing
+</span></span><span class="line"><span class="cl"><span class="c1"># 将它删除重新生成</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@k8s-master ~<span class="o">]</span><span class="c1"># kubeadm token delete jppmrh.1hovp0cyt4xu2w1l</span>
+</span></span></code></pre></div><p>如果找不到了，重新生成</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@k8s-master ~<span class="o">]</span><span class="c1"># kubeadm token create --print-join-command</span>
+</span></span></code></pre></div><p><strong>k8s-node1/node2</strong></p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@k8s-node1 ~<span class="o">]</span><span class="c1"># kubeadm join 192.168.1.11:6443 --token bdsiop.8ptt7ky6t088xyl8 \</span>
+</span></span><span class="line"><span class="cl">    --discovery-token-ca-cert-hash sha256:1b61fd611bd12f46c7c065995f304ad232f2a598cb99127ccc547612ea57eac0
+</span></span></code></pre></div><p>输出信息为以下则成功</p>
+<pre tabindex="0"><code>Run &#39;kubectl get nodes&#39; on the control-plane to see this node join the cluster.
+</code></pre>
+<h3 class="relative group">验证集群节点 
+    <div id="验证集群节点" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100">
+        <a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700"
+            style="text-decoration-line: none !important;" href="#%e9%aa%8c%e8%af%81%e9%9b%86%e7%be%a4%e8%8a%82%e7%82%b9" aria-label="锚点">#</a>
+    </span>        
+    
+</h3>
+<p><strong>k8s-master</strong></p>
+<p>等待一段时间，直至状态全部为Ready</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@k8s-master ~<span class="o">]</span><span class="c1"># kubectl get nodes</span>
+</span></span><span class="line"><span class="cl">NAME         STATUS   ROLES    AGE     VERSION
+</span></span><span class="line"><span class="cl">k8s-master   Ready    master   10m     v1.18.2
+</span></span><span class="line"><span class="cl">k8s-node1    Ready    &lt;none&gt;   3m56s   v1.18.2
+</span></span><span class="line"><span class="cl">k8s-node2    Ready    &lt;none&gt;   3m56s   v1.18.2
+</span></span></code></pre></div><p>集群搭建成功</p>
+
+<h1 class="relative group">运行Docker私库—Registry 
+    <div id="运行docker私库registry" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100">
+        <a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700"
+            style="text-decoration-line: none !important;" href="#%e8%bf%90%e8%a1%8cdocker%e7%a7%81%e5%ba%93registry" aria-label="锚点">#</a>
+    </span>        
+    
+</h1>
+<p>为了在环境中更好的管理Docker镜像，决定使用Registry来运行一个容器，用来存放docker镜像，也减少了镜像存储在国外源或者国内源的传输效率，当然也能使用harbor私库代替Registry</p>
+<p><strong>k8s-master</strong></p>
+<p>创建镜像存放目录</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@k8s-master ~<span class="o">]</span><span class="c1"># mkdir -p /data/docker/registry</span>
+</span></span></code></pre></div><p>下载镜像</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@k8s-master ~<span class="o">]</span><span class="c1"># docker pull registry:2</span>
+</span></span></code></pre></div><p>运行私库容器</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@k8s-master ~<span class="o">]</span><span class="c1"># docker run -itd -p 5000:5000 --restart always \</span>
+</span></span><span class="line"><span class="cl">--volume /data/docker/registry/:/var/lib/registry registry:2
+</span></span></code></pre></div><p>查看端口是否映射成功</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@k8s-master ~<span class="o">]</span><span class="c1"># netstat -anput | grep 5000</span>
+</span></span></code></pre></div><p>检查能否访问到私库</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@k8s-master ~<span class="o">]</span><span class="c1"># firewall-cmd --permanent --add-port=5000/tcp</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@k8s-master ~<span class="o">]</span><span class="c1"># firewall-cmd --reload</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@k8s-master ~<span class="o">]</span><span class="c1"># curl 192.168.1.11:5000/v2/_catalog</span>
+</span></span><span class="line"><span class="cl"><span class="o">{</span><span class="s2">&#34;repositories&#34;</span>:<span class="o">[]}</span>
+</span></span></code></pre></div><p>设置三台docker都能识别私库地址</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@k8s-master ~<span class="o">]</span><span class="c1"># vim /usr/lib/systemd/system/docker.service</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># 以ExecStart开头的一行的末尾添加--insecure-registry 192.168.1.11:5000</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@k8s-master ~<span class="o">]</span><span class="c1"># scp /usr/lib/systemd/system/docker.service root@k8s-node1:/usr/lib/systemd/system/</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@k8s-master ~<span class="o">]</span><span class="c1"># scp /usr/lib/systemd/system/docker.service root@k8s-node2:/usr/lib/systemd/system/</span>
+</span></span></code></pre></div><p>全部重启docker</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@k8s-master ~<span class="o">]</span><span class="c1"># systemctl daemon-reload &amp;&amp; systemctl restart docker</span>
+</span></span></code></pre></div><p>制作一个镜像上传到私库测试</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@k8s-master ~<span class="o">]</span><span class="c1"># wget http://nginx.org/download/nginx-1.11.1.tar.gz</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@k8s-master ~<span class="o">]</span><span class="c1"># vim Dockerfile</span>
+</span></span><span class="line"><span class="cl">FROM centos
+</span></span><span class="line"><span class="cl">MAINTAINER FeiYi
+</span></span><span class="line"><span class="cl">RUN yum -y install net-tools iproute pcre-devel openssl-devel gcc gcc-c++ make zlib-devel elinks
+</span></span><span class="line"><span class="cl">ADD nginx-1.11.1.tar.gz /usr/src
+</span></span><span class="line"><span class="cl">ENV NGINX_DIR /usr/src/nginx-1.11.1
+</span></span><span class="line"><span class="cl">WORKDIR <span class="nv">$NGINX_DIR</span>
+</span></span><span class="line"><span class="cl">RUN ./configure --prefix<span class="o">=</span>/usr/local/nginx --user<span class="o">=</span>nginx --group<span class="o">=</span>nginx <span class="o">&amp;&amp;</span> make <span class="o">&amp;&amp;</span> make install
+</span></span><span class="line"><span class="cl">WORKDIR /
+</span></span><span class="line"><span class="cl">RUN useradd nginx
+</span></span><span class="line"><span class="cl">RUN ln -s /usr/local/nginx/sbin/nginx /usr/sbin/nginx
+</span></span><span class="line"><span class="cl">EXPOSE <span class="m">80</span>
+</span></span><span class="line"><span class="cl">CMD <span class="o">[</span><span class="s2">&#34;nginx&#34;</span>, <span class="s2">&#34;-g&#34;</span>, <span class="s2">&#34;daemon off;&#34;</span><span class="o">]</span>
+</span></span></code></pre></div><p>构建镜像</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@k8s-master ~<span class="o">]</span><span class="c1"># docker build -t 192.168.1.11:5000/bin-nginx:latest /root</span>
+</span></span></code></pre></div><p>上传镜像</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@k8s-master ~<span class="o">]</span><span class="c1"># docker push 192.168.1.11:5000/bin-nginx</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@k8s-master ~<span class="o">]</span><span class="c1"># curl 192.168.1.11:5000/v2/_catalog</span>
+</span></span><span class="line"><span class="cl"><span class="o">{</span><span class="s2">&#34;repositories&#34;</span>:<span class="o">[</span><span class="s2">&#34;bin-nginx&#34;</span><span class="o">]}</span>
+</span></span></code></pre></div><p>私库成功</p>
+
+<h1 class="relative group">使用k8s启动nginx容器 
+    <div id="使用k8s启动nginx容器" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100">
+        <a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700"
+            style="text-decoration-line: none !important;" href="#%e4%bd%bf%e7%94%a8k8s%e5%90%af%e5%8a%a8nginx%e5%ae%b9%e5%99%a8" aria-label="锚点">#</a>
+    </span>        
+    
+</h1>
+<p><strong>k8s-master</strong></p>
+
+<h2 class="relative group">编写Deployment的模板文件 
+    <div id="编写deployment的模板文件" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100">
+        <a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700"
+            style="text-decoration-line: none !important;" href="#%e7%bc%96%e5%86%99deployment%e7%9a%84%e6%a8%a1%e6%9d%bf%e6%96%87%e4%bb%b6" aria-label="锚点">#</a>
+    </span>        
+    
+</h2>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@node1 ~<span class="o">]</span><span class="c1"># vim nginx-deployment.yml</span>
+</span></span><span class="line"><span class="cl">apiVersion: apps/v1
+</span></span><span class="line"><span class="cl">kind: Deployment
+</span></span><span class="line"><span class="cl">metadata:
+</span></span><span class="line"><span class="cl">  name: nginx
+</span></span><span class="line"><span class="cl">spec:
+</span></span><span class="line"><span class="cl">  selector:
+</span></span><span class="line"><span class="cl">    matchLabels:
+</span></span><span class="line"><span class="cl">      app: nginx
+</span></span><span class="line"><span class="cl">  replicas: <span class="m">2</span>
+</span></span><span class="line"><span class="cl">  template:
+</span></span><span class="line"><span class="cl">    metadata:
+</span></span><span class="line"><span class="cl">      labels:
+</span></span><span class="line"><span class="cl">        app: nginx
+</span></span><span class="line"><span class="cl">    spec:
+</span></span><span class="line"><span class="cl">      containers:
+</span></span><span class="line"><span class="cl">      - name: nginx
+</span></span><span class="line"><span class="cl">        image: 192.168.1.11:5000/bin-nginx
+</span></span><span class="line"><span class="cl">        ports:
+</span></span><span class="line"><span class="cl">        - containerPort: <span class="m">80</span>
+</span></span></code></pre></div><p>运行模板文件</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@node1 ~<span class="o">]</span><span class="c1"># kubectl apply -f nginx-deployment.yml</span>
+</span></span><span class="line"><span class="cl">deployment.apps/nginx created
+</span></span></code></pre></div><p>查看是否运行成功</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@node1 ~<span class="o">]</span><span class="c1"># kubectl get pod -o wide</span>
+</span></span><span class="line"><span class="cl">NAME                     READY   STATUS    RESTARTS   AGE    IP           NODE
+</span></span><span class="line"><span class="cl">nginx-66fb94d868-h2fkk   1/1     Running   <span class="m">0</span>          2m5s   10.244.2.2   node2
+</span></span><span class="line"><span class="cl">nginx-66fb94d868-zhkf8   1/1     Running   <span class="m">0</span>          2m5s   10.244.1.2   node3
+</span></span></code></pre></div><p>可以看到容器的ip，现在只能在运行容器的节点才能够访问到页面内容，如果想让外部主机访问到，需要做一个service模板，用来映射端口</p>
+
+<h2 class="relative group">编写Service模板 
+    <div id="编写service模板" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100">
+        <a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700"
+            style="text-decoration-line: none !important;" href="#%e7%bc%96%e5%86%99service%e6%a8%a1%e6%9d%bf" aria-label="锚点">#</a>
+    </span>        
+    
+</h2>
+<p>将集群中标签为app: nginx的容器的80端口映射为服务器的30001</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@node1 ~<span class="o">]</span><span class="c1"># vim nginx-service.yml</span>
+</span></span><span class="line"><span class="cl">apiVersion: v1
+</span></span><span class="line"><span class="cl">kind: Service
+</span></span><span class="line"><span class="cl">metadata:
+</span></span><span class="line"><span class="cl">  name: nginx
+</span></span><span class="line"><span class="cl">  labels:
+</span></span><span class="line"><span class="cl">    app: nginx
+</span></span><span class="line"><span class="cl">spec:
+</span></span><span class="line"><span class="cl">  type: NodePort
+</span></span><span class="line"><span class="cl">  ports:
+</span></span><span class="line"><span class="cl">  - port: <span class="m">80</span>
+</span></span><span class="line"><span class="cl">    targetPort: <span class="m">80</span>
+</span></span><span class="line"><span class="cl">    nodePort: <span class="m">30001</span>
+</span></span><span class="line"><span class="cl">  selector:
+</span></span><span class="line"><span class="cl">    app: nginx
+</span></span></code></pre></div><p>运行Service模板</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@node1 ~<span class="o">]</span><span class="c1"># kubectl apply -f nginx-service.yml</span>
+</span></span><span class="line"><span class="cl">service/nginx created
+</span></span></code></pre></div><p>访问宿主机的30001端口</p>
+<pre tabindex="0"><code>http://192.168.1.12:30001`和`http://192.168.1.13:30001
+</code></pre><p>
+
+
+
+
+
+<figure>
+    <img class="my-0 rounded-md" loading="lazy" alt="k8s_nginx" src="/assets/images/2020-07-11/k8s_nginx.png" />
+
+  
+</figure>
+</p>
+<p>容器部署成功</p>
+
+<h1 class="relative group">整合GitLab和Jenkins 
+    <div id="整合gitlab和jenkins" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100">
+        <a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700"
+            style="text-decoration-line: none !important;" href="#%e6%95%b4%e5%90%88gitlab%e5%92%8cjenkins" aria-label="锚点">#</a>
+    </span>        
+    
+</h1>
+<p><strong>Jenkins</strong></p>
+<p>在Jenkins生成密钥对</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@jenkins ~<span class="o">]</span><span class="c1"># ssh-keygen</span>
+</span></span><span class="line"><span class="cl">Generating public/private rsa key pair.
+</span></span><span class="line"><span class="cl">Enter file in which to save the key <span class="o">(</span>/root/.ssh/id_rsa<span class="o">)</span>:
+</span></span><span class="line"><span class="cl">Created directory <span class="s1">&#39;/root/.ssh&#39;</span>.
+</span></span><span class="line"><span class="cl">Enter passphrase <span class="o">(</span>empty <span class="k">for</span> no passphrase<span class="o">)</span>:
+</span></span><span class="line"><span class="cl">Enter same passphrase again:
+</span></span><span class="line"><span class="cl">Your identification has been saved in /root/.ssh/id_rsa.
+</span></span><span class="line"><span class="cl">Your public key has been saved in /root/.ssh/id_rsa.pub.
+</span></span><span class="line"><span class="cl">The key fingerprint is:
+</span></span><span class="line"><span class="cl">SHA256:IITvkptc3nJrgxCxA0R0+ExWm5y/PfSIdKaQpD0NhUc root@jenkins
+</span></span><span class="line"><span class="cl">The key<span class="err">&#39;</span>s randomart image is:
+</span></span><span class="line"><span class="cl">+---<span class="o">[</span>RSA 2048<span class="o">]</span>----+
+</span></span><span class="line"><span class="cl"><span class="p">|</span>++.oo.oE         <span class="p">|</span>
+</span></span><span class="line"><span class="cl"><span class="p">|</span>..++..<span class="o">=</span>.         <span class="p">|</span>
+</span></span><span class="line"><span class="cl"><span class="p">|</span> .<span class="o">=</span>+.Bo          <span class="p">|</span>
+</span></span><span class="line"><span class="cl"><span class="p">|</span>  +o<span class="o">=</span>.<span class="o">=</span>.         <span class="p">|</span>
+</span></span><span class="line"><span class="cl"><span class="p">|</span>   * <span class="o">=</span> +S+       <span class="p">|</span>
+</span></span><span class="line"><span class="cl"><span class="p">|</span>  + o + O o      <span class="p">|</span>
+</span></span><span class="line"><span class="cl"><span class="p">|</span> . B o + + .     <span class="p">|</span>
+</span></span><span class="line"><span class="cl"><span class="p">|</span>  + + <span class="o">=</span>   .      <span class="p">|</span>
+</span></span><span class="line"><span class="cl"><span class="p">|</span>     +.o         <span class="p">|</span>
+</span></span><span class="line"><span class="cl">+----<span class="o">[</span>SHA256<span class="o">]</span>-----+
+</span></span></code></pre></div><p><strong>GitLab</strong></p>
+<p>登录GitLab</p>
+<pre tabindex="0"><code>http://192.168.1.1
+</code></pre><p>创建项目仓库</p>
+<p>
+
+
+
+
+
+<figure>
+    <img class="my-0 rounded-md" loading="lazy" alt="gitlab" src="/assets/images/2020-07-11/admin_create_project.png" />
+
+  
+</figure>
+</p>
+<p>
+
+
+
+
+
+<figure>
+    <img class="my-0 rounded-md" loading="lazy" alt="k8s_gitlab" src="/assets/images/2020-07-11/k8s_gitlab.png" />
+
+  
+</figure>
+</p>
+<p>在GitLab中添加Jenkins的公钥值</p>
+<p>
+
+
+
+
+
+<figure>
+    <img class="my-0 rounded-md" loading="lazy" alt="gitlab" src="/assets/images/2020-07-11/add_id_rsa_pub.png" />
+
+  
+</figure>
+</p>
+<p>复制Jenkins服务器的公钥到下图位置，查看公钥<code>cat .ssh/id_rsa.pub</code></p>
+<p>
+
+
+
+
+
+<figure>
+    <img class="my-0 rounded-md" loading="lazy" alt="k8s_gitlab1" src="/assets/images/2020-07-11/k8s_gitlab1.png" />
+
+  
+</figure>
+</p>
+<p>在GitLab的项目仓库，创建一个测试代码文件</p>
+<p>
+
+
+
+
+
+<figure>
+    <img class="my-0 rounded-md" loading="lazy" alt="k8s_gitlab2" src="/assets/images/2020-07-11/k8s_gitlab2.png" />
+
+  
+</figure>
+</p>
+<p>
+
+
+
+
+
+<figure>
+    <img class="my-0 rounded-md" loading="lazy" alt="k8s_gitlab3" src="/assets/images/2020-07-11/k8s_gitlab3.png" />
+
+  
+</figure>
+</p>
+<p>因为密钥上传的是Jenkins的，所以在Jenkins上下载查看</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@jenkins ~<span class="o">]</span><span class="c1"># git clone http://192.168.1.1/root/nginx-test.git</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@jenkins ~<span class="o">]</span><span class="c1"># cd nginx-test/</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@jenkins nginx-test<span class="o">]</span><span class="c1"># cat index.html</span>
+</span></span><span class="line"><span class="cl">ChaiYanjiang
+</span></span></code></pre></div><p>成功</p>
+<p><strong>Jenkins</strong></p>
+<pre tabindex="0"><code>http://192.168.1.4:8080/
+</code></pre><p>创建任务nginx-test</p>
+<p>
+
+
+
+
+
+<figure>
+    <img class="my-0 rounded-md" loading="lazy" alt="k8s_jenkins" src="/assets/images/2020-07-11/k8s_jenkins.png" />
+
+  
+</figure>
+</p>
+<p>设置源码管理时在Gitlab的地址，出现红色说明连接不到，因为GitLab已经有了Jenkins的公钥，这里只需要填写Jenkins的私钥即可</p>
+<p>
+
+
+
+
+
+<figure>
+    <img class="my-0 rounded-md" loading="lazy" alt="k8s_jenkins2" src="/assets/images/2020-07-11/k8s_jenkins2.png" />
+
+  
+</figure>
+</p>
+<p>
+
+
+
+
+
+<figure>
+    <img class="my-0 rounded-md" loading="lazy" alt="Jenkins" src="/assets/images/2020-07-11/create_con_gitlab.png" />
+
+  
+</figure>
+</p>
+<p>红色报错消失了</p>
+<p>
+
+
+
+
+
+<figure>
+    <img class="my-0 rounded-md" loading="lazy" alt="Jenkins" src="/assets/images/2020-07-11/choose_pingzheng_gitlab.png" />
+
+  
+</figure>
+</p>
+<p>设置构建触发器</p>
+<p>当gitlab发生代码变化时，开始进行构建任务</p>
+<p>
+
+
+
+
+
+<figure>
+    <img class="my-0 rounded-md" loading="lazy" alt="k8s_jenkins3" src="/assets/images/2020-07-11/k8s_jenkins3.png" />
+
+  
+</figure>
+</p>
+<p>生成一串token值，用来对GitLab中的项目代码进行操作，所以这个值要放到GitLab中，用于验证允许Jenkins来拿取代码，稍后会将</p>
+<p>
+
+
+
+
+
+<figure>
+    <img class="my-0 rounded-md" loading="lazy" alt="k8s_build" src="/assets/images/2020-07-11/sheng_token.png" />
+
+  
+</figure>
+</p>
+<p>设置构建的命令（CI/CD）</p>
+<p>
+
+
+
+
+
+<figure>
+    <img class="my-0 rounded-md" loading="lazy" alt="k8s_build" src="/assets/images/2020-07-11/k8s_build.png" />
+
+  
+</figure>
+</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="cp">#!/bin/bash
+</span></span></span><span class="line"><span class="cl"><span class="cp"></span><span class="nv">backupcode</span><span class="o">=</span>/data/backupcode/<span class="nv">$JOB_NAME</span>/
+</span></span><span class="line"><span class="cl">mkdir -p <span class="nv">$backupcode</span>
+</span></span><span class="line"><span class="cl">chmod <span class="m">644</span> <span class="nv">$JENKINS_HOME</span>/workspace/<span class="nv">$JOB_NAME</span>/*
+</span></span><span class="line"><span class="cl">rsync -acP <span class="nv">$JENKINS_HOME</span>/workspace/<span class="nv">$JOB_NAME</span>/* <span class="nv">$backupcode</span>
+</span></span><span class="line"><span class="cl"><span class="nb">echo</span> From 192.168.1.11:5000/bin-nginx &gt; <span class="nv">$JENKINS_HOME</span>/workspace/Dockerfile
+</span></span><span class="line"><span class="cl"><span class="nb">echo</span> COPY ./nginx-test/* /usr/local/nginx/html/ &gt;&gt; <span class="nv">$JENKINS_HOME</span>/workspace/Dockerfile
+</span></span><span class="line"><span class="cl">docker rmi 192.168.1.11:5000/bin-nginx:latest
+</span></span><span class="line"><span class="cl">docker build -t 192.168.1.11:5000/bin-nginx:latest <span class="nv">$JENKINS_HOME</span>/workspace/
+</span></span><span class="line"><span class="cl">docker push 192.168.1.11:5000/bin-nginx:latest
+</span></span><span class="line"><span class="cl">ssh root@k8s-master kubectl delete deployment nginx
+</span></span><span class="line"><span class="cl">ssh root@k8s-master kubectl apply -f nginx-deployment.yml
+</span></span></code></pre></div><p>保存即可</p>
+<p><strong>GitLab</strong></p>
+<p>192.168.1.1中设置Jenkins中的token值，用来触发Jenkins构建</p>
+<p>GitLab默认情况下不允许通过本地网络触发构建，以下这步是为了设置允许本地网络构建，如果不设置允许会在添加token时报错</p>
+<p>
+
+
+
+
+
+<figure>
+    <img class="my-0 rounded-md" loading="lazy" alt="GitLab" src="/assets/images/2020-07-11/admin_settings_integrations.png" />
+
+  
+</figure>
+</p>
+<p>
+
+
+
+
+
+<figure>
+    <img class="my-0 rounded-md" loading="lazy" alt="GitLab" src="/assets/images/2020-07-11/outbound_requests.png" />
+
+  
+</figure>
+</p>
+<p>
+
+
+
+
+
+<figure>
+    <img class="my-0 rounded-md" loading="lazy" alt="GitLab" src="/assets/images/2020-07-11/allow_webhooks.png" />
+
+  
+</figure>
+</p>
+<p>保存</p>
+<p>设置允许之后，就可以设置GitLab项目与Jenkins的构建触发器连接了</p>
+<p><strong>进入项目</strong>中选择设置</p>
+<p>
+
+
+
+
+
+<figure>
+    <img class="my-0 rounded-md" loading="lazy" alt="gitlab" src="/assets/images/2020-07-11/cd_reops_settings.png" />
+
+  
+</figure>
+</p>
+<p>图中的URL是在Jenkins中的项目路径，这个路径在构建触发器的那里可以看到，复制即可，token则是刚才在Jenkins的管理界面中生成的token值，也是同样的位置，然后点击下方<code>add webhook</code></p>
+<p>
+
+
+
+
+
+<figure>
+    <img class="my-0 rounded-md" loading="lazy" alt="gitlab_token" src="/assets/images/2020-07-11/gitlab_token.png" />
+
+  
+</figure>
+</p>
+<p>add成功后，往下翻到如图所示位置可以看添加成功的URL，然后进行连接测试，出现200即成功</p>
+<p>
+
+
+
+
+
+<figure>
+    <img class="my-0 rounded-md" loading="lazy" alt="gitlab_webhooktest" src="/assets/images/2020-07-11/gitlab_webhooktest.png" />
+
+  
+</figure>
+</p>
+
+<h1 class="relative group">整合Jenkins和Docker 
+    <div id="整合jenkins和docker" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100">
+        <a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700"
+            style="text-decoration-line: none !important;" href="#%e6%95%b4%e5%90%88jenkins%e5%92%8cdocker" aria-label="锚点">#</a>
+    </span>        
+    
+</h1>
+<p><strong>Jenkins</strong></p>
+<p>在Jenkins中做对k8s-master的免密登录，得先修改Jenkins的运行用户，这里我直接用root代替，生产环境请参考这里的<a href="https://www.feiyiblog.com/2020/03/12/GitLab-Jenkins-Tomcat/" target="_blank">scp报错部分</a></p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@jenkins ~<span class="o">]</span><span class="c1"># vim /etc/sysconfig/jenkins</span>
+</span></span><span class="line"><span class="cl"> 修改jenkins用户
+</span></span><span class="line"><span class="cl"><span class="nv">JENKINS_USER</span><span class="o">=</span><span class="s2">&#34;jenkins&#34;</span>   <span class="c1"># 修改为root</span>
+</span></span></code></pre></div><p>重启Jenkins并传输密钥</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@jenkins ~<span class="o">]</span><span class="c1"># systemctl restart jenkins</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@jenkins ~<span class="o">]</span><span class="c1"># ssh-copy-id -i root@k8s-master</span>
+</span></span></code></pre></div><p>安装Docker，参考文档<a href="https://www.feiyiblog.com/2020/03/23/%e5%ae%89%e8%a3%85Docker%e2%80%94%e2%80%94%e9%95%9c%e5%83%8f%e5%8a%a0%e9%80%9f/" target="_blank">Docker安装</a>，并设置镜像加速，和指定私库地址</p>
+
+<h1 class="relative group">测试 
+    <div id="测试" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100">
+        <a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700"
+            style="text-decoration-line: none !important;" href="#%e6%b5%8b%e8%af%95" aria-label="锚点">#</a>
+    </span>        
+    
+</h1>
+<p>修改GitLab的测试文件测试Jenkins的自动化部署是否成功</p>
+<p>
+
+
+
+
+
+<figure>
+    <img class="my-0 rounded-md" loading="lazy" alt="gitlab_test" src="/assets/images/2020-07-11/gitlab_test.png" />
+
+  
+</figure>
+</p>
+<p>保存后会开始自动构建部署，访问<code>192.168.1.13:30001</code>，如果是以下则成功，如果构建失败，则检查构建脚本，慢慢排错</p>
+<p>
+
+
+
+
+
+<figure>
+    <img class="my-0 rounded-md" loading="lazy" alt="k8s_cicd" src="/assets/images/2020-07-11/k8s_cicd.png" />
+
+  
+</figure>
+</p>
+<hr>
+
+          
+          
+          
+        </div>
+        
+        
+
+        
+        
+
+          
+      </div>
+     
+      
+      
+        
+        
+          
+          
+        
+      <script>
+        var oid = "views_posts\/2020-07-11-GitLab-Jenkins-K8S-生产环境可CI-CD模拟.md"
+        var oid_likes = "likes_posts\/2020-07-11-GitLab-Jenkins-K8S-生产环境可CI-CD模拟.md"
+      </script>
+      
+      
+      <script type="text/javascript" src="/js/page.min.0860cf4e04fa2d72cc33ddba263083464d48f67de06114529043cb4623319efed4f484fd7f1730df5abea0e2da6f3538855634081d02f2d6e920b956f063e823.js" integrity="sha512-CGDPTgT6LXLMM926JjCDRk1I9n3gYRRSkEPLRiMxnv7U9IT9fxcw31q&#43;oOLabzU4hVY0CB0C8tbpILlW8GPoIw=="></script>
+      
+  
+    </section>
+  <footer class="pt-8 max-w-prose print:hidden">
+
+    
+  
+    
+    
+    
+    <div class="pt-8">
+      <hr class="border-dotted border-neutral-300 dark:border-neutral-600" />
+      <div class="flex justify-between pt-3">
+        <span>
+          
+            <a class="flex group mr-3" href="/posts/2018-10-06-%E5%85%8D%E8%B4%B9%E7%BB%99%E8%87%AA%E5%B7%B1%E7%9A%84%E7%BD%91%E7%AB%99%E6%B7%BB%E5%8A%A0https%E5%AE%89%E5%85%A8%E5%8A%A0%E5%AF%86/">
+              <span
+                class="mr-3 text-neutral-700 group-hover:text-primary-600 ltr:inline rtl:hidden dark:text-neutral dark:group-hover:text-primary-400"
+                >&larr;</span
+              >
+              <span
+                class="ml-3 text-neutral-700 group-hover:text-primary-600 ltr:hidden rtl:inline dark:text-neutral dark:group-hover:text-primary-400"
+                >&rarr;</span
+              >
+              <span class="flex flex-col">
+                <span
+                  class="mt-[0.1rem] leading-6 group-hover:underline group-hover:decoration-primary-500"
+                  >免费给自己的网站添加HTTPS安全加密</span
+                >
+                <span class="mt-[0.1rem] text-xs text-neutral-500 dark:text-neutral-400">
+                  
+                    <time datetime="2018-10-06T19:56:47&#43;00:00">2018年10月06日</time>
+                  
+                </span>
+              </span>
+            </a>
+          
+        </span>
+        <span>
+          
+            <a class="flex text-right group ml-3" href="/posts/2020-07-12-%E4%BD%BF%E7%94%A8acme.sh%E7%9A%84dns-api%E9%85%8D%E7%BD%AE%E7%94%9F%E6%88%90%E9%80%9A%E9%85%8D%E5%9F%9F%E5%90%8D%E8%AF%81%E4%B9%A6/">
+              <span class="flex flex-col">
+                <span
+                  class="mt-[0.1rem] leading-6 group-hover:underline group-hover:decoration-primary-500"
+                  >使用acme.sh的DNS API配置生成通配域名证书</span
+                >
+                <span class="mt-[0.1rem] text-xs text-neutral-500 dark:text-neutral-400">
+                  
+                    <time datetime="2020-07-12T00:34:46&#43;00:00">2020年07月12日</time>
+                  
+                </span>
+              </span>
+              <span
+                class="ml-3 text-neutral-700 group-hover:text-primary-600 ltr:inline rtl:hidden dark:text-neutral dark:group-hover:text-primary-400"
+                >&rarr;</span
+              >
+              <span
+                class="mr-3 text-neutral-700 group-hover:text-primary-600 ltr:hidden rtl:inline dark:text-neutral dark:group-hover:text-primary-400"
+                >&larr;</span
+              >
+            </a>
+          
+        </span>
+      </div>
+    </div>
+  
+
+
+    
+  </footer>
+</article>
+
+      <div id="top-scroller" class="pointer-events-none absolute top-[110vh] bottom-0 w-12 ltr:right-0 rtl:left-0">
+  <a href="#the-top"
+    class="pointer-events-auto sticky top-[calc(100vh-5.5rem)] flex h-12 w-12 mb-16 items-center justify-center rounded-full bg-neutral/50 text-xl text-neutral-700 hover:text-primary-600 dark:bg-neutral-800/50 dark:text-neutral dark:hover:text-primary-400"
+    aria-label="返回顶部" title="返回顶部">
+    &uarr;
+  </a>
+</div>
+    </main><footer id="site-footer" class="py-10 print:hidden">
+  
+  
+    
+    <nav class="flex flex-row pb-4 text-base font-medium text-neutral-500 dark:text-neutral-400">
+      <ul class="flex flex-col list-none sm:flex-row">
+        
+        <li class="flex mb-1 ltr:text-right rtl:text-left sm:mb-0 ltr:sm:mr-7 ltr:sm:last:mr-0 rtl:sm:ml-7 rtl:sm:last:ml-0">
+          <a class="decoration-primary-500 hover:underline hover:decoration-2 hover:underline-offset-2 flex items-center" href="/tags/"
+            title="Tags">
+            
+            Tags
+          </a>
+        </li>
+        
+        <li class="flex mb-1 ltr:text-right rtl:text-left sm:mb-0 ltr:sm:mr-7 ltr:sm:last:mr-0 rtl:sm:ml-7 rtl:sm:last:ml-0">
+          <a class="decoration-primary-500 hover:underline hover:decoration-2 hover:underline-offset-2 flex items-center" href="/categories/"
+            title="Categories">
+            
+            Categories
+          </a>
+        </li>
+        
+      </ul>
+    </nav>
+    
+  
+  <div class="flex items-center justify-between">
+
+    
+    
+    <p class="text-sm text-neutral-500 dark:text-neutral-400">
+      &copy;
+      2025
+      Sabo LI
+    </p>
+    
+
+    
+    
+    <p class="text-xs text-neutral-500 dark:text-neutral-400">
+      
+      
+      由 <a class="hover:underline hover:decoration-primary-400 hover:text-primary-500"
+        href="https://gohugo.io/" target="_blank" rel="noopener noreferrer">Hugo</a> &amp; <a class="hover:underline hover:decoration-primary-400 hover:text-primary-500"
+        href="https://blowfish.page/" target="_blank" rel="noopener noreferrer">Blowfish</a> 强力驱动
+    </p>
+    
+
+  </div>
+  <script>
+    
+    mediumZoom(document.querySelectorAll("img:not(.nozoom)"), {
+      margin: 24,
+      background: 'rgba(0,0,0,0.5)',
+      scrollOffset: 0,
+    })
+    
+  </script>
+  
+  
+  <script type="text/javascript" src="/js/process.min.ee03488f19c93c2efb199e2e3014ea5f3cb2ce7d45154adb3399a158cac27ca52831db249ede5bb602700ef87eb02434139de0858af1818ab0fb4182472204a4.js" integrity="sha512-7gNIjxnJPC77GZ4uMBTqXzyyzn1FFUrbM5mhWMrCfKUoMdsknt5btgJwDvh&#43;sCQ0E53ghYrxgYqw&#43;0GCRyIEpA=="></script>
+  
+  
+</footer>
+<div
+  id="search-wrapper"
+  class="invisible fixed inset-0 flex h-screen w-screen cursor-default flex-col bg-neutral-500/50 p-4 backdrop-blur-sm dark:bg-neutral-900/50 sm:p-6 md:p-[10vh] lg:p-[12vh]"
+  data-url="http://localhost:1313/"
+  style="z-index:500"
+>
+  <div
+    id="search-modal"
+    class="flex flex-col w-full max-w-3xl min-h-0 mx-auto border rounded-md shadow-lg top-20 border-neutral-200 bg-neutral dark:border-neutral-700 dark:bg-neutral-800"
+  >
+    <header class="relative z-10 flex items-center justify-between flex-none px-2">
+      <form class="flex items-center flex-auto min-w-0">
+        <div class="flex items-center justify-center w-8 h-8 text-neutral-400">
+          
+
+  <span class="relative block icon">
+    <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="search" class="svg-inline--fa fa-search fa-w-16" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M505 442.7L405.3 343c-4.5-4.5-10.6-7-17-7H372c27.6-35.3 44-79.7 44-128C416 93.1 322.9 0 208 0S0 93.1 0 208s93.1 208 208 208c48.3 0 92.7-16.4 128-44v16.3c0 6.4 2.5 12.5 7 17l99.7 99.7c9.4 9.4 24.6 9.4 33.9 0l28.3-28.3c9.4-9.4 9.4-24.6.1-34zM208 336c-70.7 0-128-57.2-128-128 0-70.7 57.2-128 128-128 70.7 0 128 57.2 128 128 0 70.7-57.2 128-128 128z"/></svg>
+
+  </span>
+
+
+        </div>
+        <input
+          type="search"
+          id="search-query"
+          class="flex flex-auto h-12 mx-1 bg-transparent appearance-none focus:outline-dotted focus:outline-2 focus:outline-transparent"
+          placeholder="搜索"
+          tabindex="0"
+        />
+      </form>
+      <button
+        id="close-search-button"
+        class="flex items-center justify-center w-8 h-8 text-neutral-700 hover:text-primary-600 dark:text-neutral dark:hover:text-primary-400"
+        title="关闭 (Esc)"
+      >
+        
+
+  <span class="relative block icon">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><path fill="currentColor" d="M310.6 361.4c12.5 12.5 12.5 32.75 0 45.25C304.4 412.9 296.2 416 288 416s-16.38-3.125-22.62-9.375L160 301.3L54.63 406.6C48.38 412.9 40.19 416 32 416S15.63 412.9 9.375 406.6c-12.5-12.5-12.5-32.75 0-45.25l105.4-105.4L9.375 150.6c-12.5-12.5-12.5-32.75 0-45.25s32.75-12.5 45.25 0L160 210.8l105.4-105.4c12.5-12.5 32.75-12.5 45.25 0s12.5 32.75 0 45.25l-105.4 105.4L310.6 361.4z"/></svg>
+
+  </span>
+
+
+      </button>
+    </header>
+    <section class="flex-auto px-2 overflow-auto">
+      <ul id="search-results">
+        
+      </ul>
+    </section>
+  </div>
+</div>
+
+  </div>
+</body>
+
+</html>

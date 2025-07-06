@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Ruby on Sabo LI</title>
+    <link>http://localhost:1313/categories/ruby/</link>
+    <description>Recent content in Ruby on Sabo LI</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-CN</language>
+    <managingEditor>sabo-li@outlook.com (Sabo LI)</managingEditor>
+    <webMaster>sabo-li@outlook.com (Sabo LI)</webMaster>
+    <copyright>© 2025 Sabo LI</copyright>
+    <lastBuildDate>Mon, 01 Oct 2018 23:53:39 +0000</lastBuildDate><atom:link href="http://localhost:1313/categories/ruby/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Ruby的load，require, autoload</title>
+      <link>http://localhost:1313/posts/ruby%E7%9A%84loadrequire-autoload/</link>
+      <pubDate>Mon, 01 Oct 2018 23:53:39 +0000</pubDate>
+      <author>sabo-li@outlook.com (Sabo LI)</author>
+      <guid>http://localhost:1313/posts/ruby%E7%9A%84loadrequire-autoload/</guid>
+      <description></description>
+      
+    </item>
+    
+    <item>
+      <title>Ruby中的include，extend与prepend</title>
+      <link>http://localhost:1313/posts/ruby%E4%B8%AD%E7%9A%84includeextend%E4%B8%8Eprepend/</link>
+      <pubDate>Sun, 30 Sep 2018 23:32:30 +0000</pubDate>
+      <author>sabo-li@outlook.com (Sabo LI)</author>
+      <guid>http://localhost:1313/posts/ruby%E4%B8%AD%E7%9A%84includeextend%E4%B8%8Eprepend/</guid>
+      <description></description>
+      
+    </item>
+    
+    <item>
+      <title>Ruby中的钩子方法</title>
+      <link>http://localhost:1313/posts/ruby%E4%B8%AD%E7%9A%84%E9%92%A9%E5%AD%90%E6%96%B9%E6%B3%95/</link>
+      <pubDate>Sat, 29 Sep 2018 23:19:03 +0000</pubDate>
+      <author>sabo-li@outlook.com (Sabo LI)</author>
+      <guid>http://localhost:1313/posts/ruby%E4%B8%AD%E7%9A%84%E9%92%A9%E5%AD%90%E6%96%B9%E6%B3%95/</guid>
+      <description></description>
+      
+    </item>
+    
+    <item>
+      <title>Ruby元编程手册</title>
+      <link>http://localhost:1313/posts/ruby%E5%85%83%E7%BC%96%E7%A8%8B%E6%89%8B%E5%86%8C/</link>
+      <pubDate>Thu, 20 Sep 2018 20:57:10 +0000</pubDate>
+      <author>sabo-li@outlook.com (Sabo LI)</author>
+      <guid>http://localhost:1313/posts/ruby%E5%85%83%E7%BC%96%E7%A8%8B%E6%89%8B%E5%86%8C/</guid>
+      <description></description>
+      
+    </item>
+    
+  </channel>
+</rss>

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Nginx on Sabo LI</title>
+    <link>http://localhost:1313/categories/nginx/</link>
+    <description>Recent content in Nginx on Sabo LI</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-CN</language>
+    <managingEditor>sabo-li@outlook.com (Sabo LI)</managingEditor>
+    <webMaster>sabo-li@outlook.com (Sabo LI)</webMaster>
+    <copyright>© 2025 Sabo LI</copyright>
+    <lastBuildDate>Tue, 18 Sep 2018 00:30:50 +0000</lastBuildDate><atom:link href="http://localhost:1313/categories/nginx/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>使用Nginx部署静态网站</title>
+      <link>http://localhost:1313/posts/%E4%BD%BF%E7%94%A8nginx%E9%83%A8%E7%BD%B2%E9%9D%99%E6%80%81%E7%BD%91%E7%AB%99/</link>
+      <pubDate>Tue, 18 Sep 2018 00:30:50 +0000</pubDate>
+      <author>sabo-li@outlook.com (Sabo LI)</author>
+      <guid>http://localhost:1313/posts/%E4%BD%BF%E7%94%A8nginx%E9%83%A8%E7%BD%B2%E9%9D%99%E6%80%81%E7%BD%91%E7%AB%99/</guid>
+      <description></description>
+      
+    </item>
+    
+  </channel>
+</rss>

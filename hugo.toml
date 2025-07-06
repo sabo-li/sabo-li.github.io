@@ -1,0 +1,4 @@
+baseURL = 'https://sabo-li.github.io/'
+languageCode = 'zh-CN'
+title = 'All is well.'
+theme = 'blowfish'
