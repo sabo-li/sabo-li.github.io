@@ -26,7 +26,7 @@ disableTextInHeader = false
 # defaultSocialImage = "/android-chrome-512x512.png" # used as default for social media sharing (Open Graph and Twitter)
 
 defaultBackgroundImage = "/images/fireflies.svg"
-defaultFeaturedImage = "/images/ripples.svg"
+defaultFeaturedImage = "/images/list-featured.svg"
 # defaultSocialImage = "/images/blowfish.jpg"
 
 highlightCurrentMenuArea = true
