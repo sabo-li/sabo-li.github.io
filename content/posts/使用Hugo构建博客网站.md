@@ -3,7 +3,7 @@ title: "使用Hugo构建博客网站"
 date: 2025-07-05T21:56:09+08:00
 # draft: true
 description: ""
-tags: ["HUGO", "博客"]
+tags: ["Hugo", "博客"]
 ---
 
 快速入门
