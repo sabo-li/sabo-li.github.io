@@ -120,7 +120,7 @@ Blowfish 折腾了一些自定义配置
 创建`layouts/partials/extend-head.html`文件，并且修改文件内容为
 
 ```html
-<link rel="stylesheet" href="https://cdn.staticfile.org/lxgw-wenkai-screen-webfont/1.7.0/style.css" media="print" onload="this.media='all'">
+<link rel="stylesheet" href="https://cdn.staticfile.net/lxgw-wenkai-screen-webfont/1.7.0/style.css" media="print" onload="this.media='all'">
 ```
 
 创建`assets/css/custom.css`文件，并且修改文件内容为
